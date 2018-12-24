@@ -53,11 +53,12 @@ void TerminalWidget::killProcess()
 void TerminalWidget::sendInput()
 {
     qDebug() << "sendInput called";
-    cursor.insertHtml("<br />");
-    qProc -> start(input);
-    input = "";
     running = true;
+    cursor.insertHtml("<br />");
     scrollToBottom();
+    QString command = QString(input.toLocal8Bit().data());
+    input = "";
+    qProc -> start(command);
 }
 
 QString TerminalWidget::getInput()
@@ -94,7 +95,9 @@ void TerminalWidget::onProcessError(QProcess::ProcessError error)
         break;
     }
 
-    running = false;
+    qDebug() << qProc->errorString();
+
+    onFinished(1);
 }
 
 void TerminalWidget::onFinished(int exitStatus)
