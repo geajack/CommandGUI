@@ -23,6 +23,7 @@ TerminalWidget::TerminalWidget(QWidget* parent) : QTextEdit(parent)
     qProc = new QProcess();
     connect(qProc, SIGNAL(readyReadStandardError()), this, SLOT(printError()));
     connect(qProc, SIGNAL(readyReadStandardOutput()), this, SLOT(printOutput()));
+    connect(qProc, SIGNAL(errorOccurred(QProcess::ProcessError)), this, SLOT(onProcessError(QProcess::ProcessError)));
     connect(qProc, SIGNAL(finished(int)), this, SLOT(onFinished(int)));
 }
 
@@ -51,6 +52,7 @@ void TerminalWidget::killProcess()
 
 void TerminalWidget::sendInput()
 {
+    qDebug() << "sendInput called";
     cursor.insertHtml("<br />");
     qProc -> start(input);
     input = "";
@@ -63,8 +65,41 @@ QString TerminalWidget::getInput()
     return input;
 }
 
+void TerminalWidget::onProcessError(QProcess::ProcessError error)
+{
+    switch (error)
+    {
+        case QProcess::FailedToStart:
+            qDebug() << "Process failed to start";
+        break;
+        
+        case QProcess::Crashed:
+            qDebug() << "Process crashed";
+        break;
+        
+        case QProcess::Timedout:
+            qDebug() << "Process timed out";
+        break;
+
+        case QProcess::WriteError:
+            qDebug() << "Process suffered a write error";
+        break;
+
+        case QProcess::ReadError:
+            qDebug() << "Process suffered a read error";
+        break;
+
+        case QProcess::UnknownError:
+            qDebug() << "Process suffered an unknown error";
+        break;
+    }
+
+    running = false;
+}
+
 void TerminalWidget::onFinished(int exitStatus)
 {
+    qDebug() << "Process finished";
     cursor.insertHtml("<br /><b>&gt;</b> ");
     running = false;
     emit readyForInput();
@@ -72,6 +107,7 @@ void TerminalWidget::onFinished(int exitStatus)
 
 void TerminalWidget::printError()
 {
+    qDebug() << "Got standard error";
     QString s = qProc -> readAllStandardError();
     cursor.insertText(s);
     scrollToBottom();
@@ -79,6 +115,7 @@ void TerminalWidget::printError()
 
 void TerminalWidget::printOutput()
 {
+    qDebug() << "Got standard output";
     QString s = qProc -> readAllStandardOutput();
     cursor.insertText(s);
     scrollToBottom();

@@ -26,6 +26,7 @@ class TerminalWidget : public QTextEdit
     public slots:        
         void printOutput();
         void printError();
+        void onProcessError(QProcess::ProcessError error);
         void onFinished(int exitStatus);
                         
     signals:                        
