@@ -25,7 +25,7 @@ void FormWidget::addTextItem(QString name, QString label, QString defaultValue)
     QLineEdit* inputField = new QLineEdit(this);
     inputField -> setText(defaultValue);
     connect(inputField, SIGNAL(textChanged(QString)), this, SIGNAL(formChanged()));
-    FormFieldDescriptor* descriptor = (FormFieldDescriptor*) malloc(sizeof(descriptor));
+    FormFieldDescriptor* descriptor = (FormFieldDescriptor*) malloc(sizeof(FormFieldDescriptor));
     descriptor -> type  = TYPE_TEXT;
     descriptor -> field = inputField;
     layout  -> addRow(label, inputField);
@@ -36,7 +36,7 @@ void FormWidget::addBooleanItem(QString name, QString label, bool def)
 {
     QCheckBox* inputField = new QCheckBox();
     connect(inputField, SIGNAL(stateChanged(int)), this, SIGNAL(formChanged()));
-    FormFieldDescriptor* descriptor = (FormFieldDescriptor*) malloc(sizeof(descriptor));
+    FormFieldDescriptor* descriptor = (FormFieldDescriptor*) malloc(sizeof(FormFieldDescriptor));
     
     if (def)
     {
@@ -56,7 +56,7 @@ void FormWidget::addFileItem(QString name, QString label, QString defaultValue, 
     inputField->setPath(defaultValue);
     inputField->setType(type);
     connect(inputField, SIGNAL(changed()), this, SIGNAL(formChanged()));
-    FormFieldDescriptor* descriptor = (FormFieldDescriptor*) malloc(sizeof(descriptor));
+    FormFieldDescriptor* descriptor = (FormFieldDescriptor*) malloc(sizeof(FormFieldDescriptor));
     descriptor -> type  = TYPE_FILE;
     descriptor -> field = inputField;
     layout  -> addRow(label, inputField);
@@ -82,7 +82,7 @@ void FormWidget::addDropDownItem(QString name, QString label, QString defaultVal
     
     inputField -> setCurrentIndex(defaultIndex);
     
-    FormFieldDescriptor* descriptor = (FormFieldDescriptor*) malloc(sizeof(descriptor));
+    FormFieldDescriptor* descriptor = (FormFieldDescriptor*) malloc(sizeof(FormFieldDescriptor));
     descriptor -> type  = TYPE_DROPDOWN;
     descriptor -> field = inputField;
     layout  -> addRow(label, inputField);
