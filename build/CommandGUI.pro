@@ -36,3 +36,6 @@ SOURCES += ../src/CommandDescriptor.cpp \
            ../src/TerminalWidget.cpp
 
 QT += widgets
+DESTDIR = ../bin
+OBJECTS_DIR=artifacts
+MOC_DIR=artifacts
