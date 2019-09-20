@@ -7,64 +7,57 @@ The program looks like this:
 
 In order to get this graphical wrapper for `wget`, all I had to do was feed CommandGUI this JSON file:
 
-    {
-      "name": "wget",
-      "templateString": "wget %recursive%[-r] %noparent%[-np] %norobots%[-e robots=off]\
-                 %user%[--user=%user%] %password%[--password=%password%]\
-                 %outdir%[-P \"%outdir%\"]\
-                 %cut%[-nH --cut-dirs=%cut%]\
-                 %url%",
-
-      "variables":
-      [
+```json
+{
+    "name": "wget",
+    "templateString": "wget %recursive%[-r] %noparent%[-np] %norobots%[-e robots=off]\
+                %user%[--user=%user%] %password%[--password=%password%]\
+                %outdir%[-P \"%outdir%\"]\
+                %cut%[-nH --cut-dirs=%cut%]\
+                %url%",
+    "variables": [
         {
-          "name": "url",
-          "label": "URL",
-          "type": "string"
+            "name": "url",
+            "label": "URL",
+            "type": "string"
         },
-
         {
-          "name": "user",
-          "label": "Username",
-          "type": "string"
+            "name": "user",
+            "label": "Username",
+            "type": "string"
         },
-
         {
-          "name": "password",
-          "label": "Password",
-          "type": "string"
+            "name": "password",
+            "label": "Password",
+            "type": "string"
         },
-
         {
-          "name": "recursive",
-          "label": "Recursive",
-          "type": "boolean"
+            "name": "recursive",
+            "label": "Recursive",
+            "type": "boolean"
         },
-
         {
-          "name": "noparent",
-          "label": "No parent",
-          "type": "boolean",
-          "default": true
+            "name": "noparent",
+            "label": "No parent",
+            "type": "boolean",
+            "default": true
         },
-
         {
-          "name": "norobots",
-          "label": "Ignore robots.txt",
-          "type": "boolean"
+            "name": "norobots",
+            "label": "Ignore robots.txt",
+            "type": "boolean"
         },
-
         {
-          "name": "outdir",
-          "label": "Output directory",
-          "type": "folder",
-          "default": "/home/jack/Downloads"
+            "name": "outdir",
+            "label": "Output directory",
+            "type": "folder",
+            "default": "/home/jack/Downloads"
         },
-
         {
-          "name": "cut",
-          "label": "Cut dirs",
-          "type": "string"
+            "name": "cut",
+            "label": "Cut dirs",
+            "type": "string"
         }
-      ]
-  }
+    ]
+}
+```
