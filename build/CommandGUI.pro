@@ -34,3 +34,5 @@ SOURCES += ../src/CommandDescriptor.cpp \
            ../src/MainWindow.cpp \
            ../src/MenuPage.cpp \
            ../src/TerminalWidget.cpp
+
+QT += widgets
