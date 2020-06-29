@@ -4,7 +4,7 @@
 #include <QStackedLayout>
 #include <QWidget>
 #include <QCloseEvent>
-#include "CommandManager.h"
+#include "../CommandManager.h"
 #include "CommandPage.h"
 #include "MenuPage.h"
 

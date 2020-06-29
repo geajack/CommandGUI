@@ -16,24 +16,24 @@ INCLUDEPATH += .
 # Input
 HEADERS += ../src/CommandDescriptor.h \
            ../src/CommandManager.h \
-           ../src/CommandPage.h \
+           ../src/ui/CommandPage.h \
            ../src/CommandTemplateParser.h \
            ../src/Exceptions.h \
-           ../src/FileChooserButton.h \
-           ../src/FormWidget.h \
-           ../src/MainWindow.h \
-           ../src/MenuPage.h \
-           ../src/TerminalWidget.h
+           ../src/ui/FileChooserButton.h \
+           ../src/ui/FormWidget.h \
+           ../src/ui/MainWindow.h \
+           ../src/ui/MenuPage.h \
+           ../src/ui/TerminalWidget.h
 SOURCES += ../src/CommandDescriptor.cpp \
            ../src/CommandManager.cpp \
-           ../src/CommandPage.cpp \
+           ../src/ui/CommandPage.cpp \
            ../src/CommandTemplateParser.cpp \
-           ../src/FileChooserButton.cpp \
-           ../src/FormWidget.cpp \
+           ../src/ui/FileChooserButton.cpp \
+           ../src/ui/FormWidget.cpp \
            ../src/main.cpp \
-           ../src/MainWindow.cpp \
-           ../src/MenuPage.cpp \
-           ../src/TerminalWidget.cpp
+           ../src/ui/MainWindow.cpp \
+           ../src/ui/MenuPage.cpp \
+           ../src/ui/TerminalWidget.cpp
 
 QT += widgets
 DESTDIR = ../bin

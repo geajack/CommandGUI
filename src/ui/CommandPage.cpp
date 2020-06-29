@@ -14,8 +14,8 @@
 #include <QApplication>
 #include "CommandPage.h"
 #include "FormWidget.h"
-#include "CommandDescriptor.h"
-#include "CommandTemplateParser.h"
+#include "../CommandDescriptor.h"
+#include "../CommandTemplateParser.h"
 #include "TerminalWidget.h"
 #include "FileChooserButton.h"
 
