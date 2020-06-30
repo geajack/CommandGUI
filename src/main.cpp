@@ -1,5 +1,4 @@
-#include <QApplication>
-#include "ui/MainWindow.h"
+#include "Application.h"
 
 int main(int, char**);
 
@@ -10,9 +9,7 @@ int WinMain(int argc, char *argv[])
 
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
-    MainWindow w;
-    w.show();
+    Application application;
 
-    return a.exec();
+    return application.execute();
 }

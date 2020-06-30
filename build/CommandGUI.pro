@@ -23,7 +23,8 @@ HEADERS += ../src/CommandDescriptor.h \
            ../src/ui/FormWidget.h \
            ../src/ui/MainWindow.h \
            ../src/ui/MenuPage.h \
-           ../src/ui/TerminalWidget.h
+           ../src/ui/TerminalWidget.h \
+           ../src/Application.h
 SOURCES += ../src/CommandDescriptor.cpp \
            ../src/CommandManager.cpp \
            ../src/ui/CommandPage.cpp \
@@ -33,7 +34,8 @@ SOURCES += ../src/CommandDescriptor.cpp \
            ../src/main.cpp \
            ../src/ui/MainWindow.cpp \
            ../src/ui/MenuPage.cpp \
-           ../src/ui/TerminalWidget.cpp
+           ../src/ui/TerminalWidget.cpp \
+           ../src/Application.cpp
 
 QT += widgets
 DESTDIR = ../bin
