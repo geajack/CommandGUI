@@ -1,5 +1,6 @@
 #pragma once
 
+#include <string.h>
 #include <QString>
 #include <QList>
 #include <QMap>
@@ -46,5 +47,5 @@ class CommandDescriptor
 struct CommandHeader
 {
     int id;
-    QString* name;
+    std::string* name;
 };

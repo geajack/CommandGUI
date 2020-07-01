@@ -1,3 +1,4 @@
+#include <string.h>
 #include <QFile>
 #include <QIODevice>
 #include <QDebug>
@@ -42,7 +43,7 @@ QList<CommandHeader>* CommandManager::getHeaders()
     for (int i = 0; i < fileInfoList->length(); i++)
     {
         header.id   = i;
-        header.name = new QString(fileInfoList->at(i).baseName());
+        header.name = new std::string(fileInfoList->at(i).baseName().toStdString());
         list->append(header);
     }
     return list;

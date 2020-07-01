@@ -1,3 +1,4 @@
+#include <QString>
 #include <QWidget>
 #include <QVBoxLayout>
 #include <QPushButton>
@@ -25,7 +26,7 @@ void MenuPage::loadCommandHeaders(QList<CommandHeader>* headers)
     QPushButton* button;
     for (int i = 0; i < headers->length(); i++)
     {
-        button = new QPushButton(*(headers->at(i).name));
+        button = new QPushButton(QString::fromStdString(*headers->at(i).name));
         layout -> addWidget(button);
         signalMapper -> setMapping(button, i);
         connect(button, SIGNAL(clicked()), signalMapper, SLOT(map()));
