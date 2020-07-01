@@ -4,7 +4,6 @@
 #include <QJsonObject>
 #include <QJsonValue>
 #include <QJsonArray>
-#include <QDebug>
 #include "CommandDescriptor.h"
 #include "Exceptions.h"
 

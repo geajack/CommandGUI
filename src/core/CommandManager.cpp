@@ -1,7 +1,6 @@
 #include <string.h>
 #include <QFile>
 #include <QIODevice>
-#include <QDebug>
 #include <QDirIterator>
 #include <QJsonDocument>
 #include <QStringList>

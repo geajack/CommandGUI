@@ -1,5 +1,4 @@
 #include <QMap>
-#include <QDebug>
 #include "CommandDescriptor.h"
 #include "CommandTemplateParser.h"
 #include "Exceptions.h"
