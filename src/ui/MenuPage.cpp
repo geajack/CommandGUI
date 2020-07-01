@@ -5,7 +5,7 @@
 #include <QSignalMapper>
 #include <QScrollArea>
 #include <QList>
-#include "../CommandDescriptor.h"
+#include "../core/CommandDescriptor.h"
 #include "MenuPage.h"
 
 MenuPage::MenuPage(QWidget* parent) : QScrollArea(parent)

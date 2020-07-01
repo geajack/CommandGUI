@@ -16,11 +16,11 @@ INCLUDEPATH += .
 DEFINES += COMMANDGUI_UI_PLATFORM_QT
 
 # Input
-HEADERS += ../../src/CommandDescriptor.h \
-           ../../src/CommandManager.h \
+HEADERS += ../../src/core/CommandDescriptor.h \
+           ../../src/core/CommandManager.h \
            ../../src/ui/CommandPage.h \
-           ../../src/CommandTemplateParser.h \
-           ../../src/Exceptions.h \
+           ../../src/core/CommandTemplateParser.h \
+           ../../src/core/Exceptions.h \
            ../../src/ui/FileChooserButton.h \
            ../../src/ui/FormWidget.h \
            ../../src/ui/MainWindow.h \
@@ -28,10 +28,10 @@ HEADERS += ../../src/CommandDescriptor.h \
            ../../src/ui/TerminalWidget.h \
            ../../src/Application.h
            ../../src/ApplicationQt.h
-SOURCES += ../../src/CommandDescriptor.cpp \
-           ../../src/CommandManager.cpp \
+SOURCES += ../../src/core/CommandDescriptor.cpp \
+           ../../src/core/CommandManager.cpp \
            ../../src/ui/CommandPage.cpp \
-           ../../src/CommandTemplateParser.cpp \
+           ../../src/core/CommandTemplateParser.cpp \
            ../../src/ui/FileChooserButton.cpp \
            ../../src/ui/FormWidget.cpp \
            ../../src/main.cpp \

@@ -52,10 +52,10 @@ OBJECTS_DIR   = artifacts/
 
 ####### Files
 
-SOURCES       = ../../src/CommandDescriptor.cpp \
-		../../src/CommandManager.cpp \
+SOURCES       = ../../src/core/CommandDescriptor.cpp \
+		../../src/core/CommandManager.cpp \
 		../../src/ui/CommandPage.cpp \
-		../../src/CommandTemplateParser.cpp \
+		../../src/core/CommandTemplateParser.cpp \
 		../../src/ui/FileChooserButton.cpp \
 		../../src/ui/FormWidget.cpp \
 		../../src/main.cpp \
@@ -278,20 +278,20 @@ DIST          = /home/jack/Qt/5.12.6/gcc_64/mkspecs/features/spec_pre.prf \
 		/home/jack/Qt/5.12.6/gcc_64/mkspecs/features/exceptions.prf \
 		/home/jack/Qt/5.12.6/gcc_64/mkspecs/features/yacc.prf \
 		/home/jack/Qt/5.12.6/gcc_64/mkspecs/features/lex.prf \
-		CommandGUI.pro ../../src/CommandDescriptor.h \
-		../../src/CommandManager.h \
+		CommandGUI.pro ../../src/core/CommandDescriptor.h \
+		../../src/core/CommandManager.h \
 		../../src/ui/CommandPage.h \
-		../../src/CommandTemplateParser.h \
-		../../src/Exceptions.h \
+		../../src/core/CommandTemplateParser.h \
+		../../src/core/Exceptions.h \
 		../../src/ui/FileChooserButton.h \
 		../../src/ui/FormWidget.h \
 		../../src/ui/MainWindow.h \
 		../../src/ui/MenuPage.h \
 		../../src/ui/TerminalWidget.h \
-		../../src/Application.h ../../src/CommandDescriptor.cpp \
-		../../src/CommandManager.cpp \
+		../../src/Application.h ../../src/core/CommandDescriptor.cpp \
+		../../src/core/CommandManager.cpp \
 		../../src/ui/CommandPage.cpp \
-		../../src/CommandTemplateParser.cpp \
+		../../src/core/CommandTemplateParser.cpp \
 		../../src/ui/FileChooserButton.cpp \
 		../../src/ui/FormWidget.cpp \
 		../../src/main.cpp \
@@ -715,8 +715,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /home/jack/Qt/5.12.6/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../../src/CommandDescriptor.h ../../src/CommandManager.h ../../src/ui/CommandPage.h ../../src/CommandTemplateParser.h ../../src/Exceptions.h ../../src/ui/FileChooserButton.h ../../src/ui/FormWidget.h ../../src/ui/MainWindow.h ../../src/ui/MenuPage.h ../../src/ui/TerminalWidget.h ../../src/Application.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../../src/CommandDescriptor.cpp ../../src/CommandManager.cpp ../../src/ui/CommandPage.cpp ../../src/CommandTemplateParser.cpp ../../src/ui/FileChooserButton.cpp ../../src/ui/FormWidget.cpp ../../src/main.cpp ../../src/ui/MainWindow.cpp ../../src/ui/MenuPage.cpp ../../src/ui/TerminalWidget.cpp ../../src/ApplicationQt.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../../src/core/CommandDescriptor.h ../../src/core/CommandManager.h ../../src/ui/CommandPage.h ../../src/core/CommandTemplateParser.h ../../src/core/Exceptions.h ../../src/ui/FileChooserButton.h ../../src/ui/FormWidget.h ../../src/ui/MainWindow.h ../../src/ui/MenuPage.h ../../src/ui/TerminalWidget.h ../../src/Application.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../../src/core/CommandDescriptor.cpp ../../src/core/CommandManager.cpp ../../src/ui/CommandPage.cpp ../../src/core/CommandTemplateParser.cpp ../../src/ui/FileChooserButton.cpp ../../src/ui/FormWidget.cpp ../../src/main.cpp ../../src/ui/MainWindow.cpp ../../src/ui/MenuPage.cpp ../../src/ui/TerminalWidget.cpp ../../src/ApplicationQt.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -883,7 +883,7 @@ artifacts/moc_CommandPage.cpp: ../../src/ui/CommandPage.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtWidgets/QLayout \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/QMap \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtGui/QList \
-		../../src/CommandDescriptor.h \
+		../../src/core/CommandDescriptor.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/QJsonDocument \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qjsondocument.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qjsonvalue.h \
@@ -894,7 +894,7 @@ artifacts/moc_CommandPage.cpp: ../../src/ui/CommandPage.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtWidgets/qtextedit.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtGui/qtextdocument.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtGui/QTextCursor \
-		../../src/Exceptions.h \
+		../../src/core/Exceptions.h \
 		artifacts/moc_predefs.h \
 		/home/jack/Qt/5.12.6/gcc_64/bin/moc
 	/home/jack/Qt/5.12.6/gcc_64/bin/moc $(DEFINES) --include /home/jack/Code/CommandGUI/Codebase/build/qt/artifacts/moc_predefs.h -I/home/jack/Qt/5.12.6/gcc_64/mkspecs/linux-g++ -I/home/jack/Code/CommandGUI/Codebase/build/qt -I/home/jack/Code/CommandGUI/Codebase/build/qt -I/home/jack/Qt/5.12.6/gcc_64/include -I/home/jack/Qt/5.12.6/gcc_64/include/QtWidgets -I/home/jack/Qt/5.12.6/gcc_64/include/QtGui -I/home/jack/Qt/5.12.6/gcc_64/include/QtCore -I/usr/include/c++/8 -I/usr/include/x86_64-linux-gnu/c++/8 -I/usr/include/c++/8/backward -I/usr/lib/gcc/x86_64-linux-gnu/8/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/8/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../../src/ui/CommandPage.h -o artifacts/moc_CommandPage.cpp
@@ -1260,9 +1260,8 @@ artifacts/moc_MainWindow.cpp: ../../src/ui/MainWindow.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtWidgets/qgridlayout.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtWidgets/QWidget \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtGui/QCloseEvent \
-		../../src/CommandManager.h \
-		../../src/CommandDescriptor.h \
-		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/QString \
+		../../src/core/CommandManager.h \
+		../../src/core/CommandDescriptor.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtGui/QList \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/QMap \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/QJsonDocument \
@@ -1281,7 +1280,7 @@ artifacts/moc_MainWindow.cpp: ../../src/ui/MainWindow.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/QFileInfo \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/QByteArray \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/QJsonParseError \
-		../../src/Exceptions.h \
+		../../src/core/Exceptions.h \
 		../../src/ui/CommandPage.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtWidgets/QVBoxLayout \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtWidgets/QLabel \
@@ -1290,6 +1289,7 @@ artifacts/moc_MainWindow.cpp: ../../src/ui/MainWindow.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtWidgets/QPushButton \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtWidgets/qpushbutton.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtWidgets/qabstractbutton.h \
+		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/QString \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtWidgets/QLineEdit \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtWidgets/qlineedit.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtGui/qtextcursor.h \
@@ -1437,13 +1437,12 @@ artifacts/moc_MenuPage.cpp: ../../src/ui/MenuPage.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtWidgets/qscrollarea.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtWidgets/qabstractscrollarea.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtWidgets/qframe.h \
-		../../src/CommandDescriptor.h \
-		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/QString \
+		../../src/core/CommandDescriptor.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/QMap \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/QJsonDocument \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qjsondocument.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qjsonvalue.h \
-		../../src/Exceptions.h \
+		../../src/core/Exceptions.h \
 		artifacts/moc_predefs.h \
 		/home/jack/Qt/5.12.6/gcc_64/bin/moc
 	/home/jack/Qt/5.12.6/gcc_64/bin/moc $(DEFINES) --include /home/jack/Code/CommandGUI/Codebase/build/qt/artifacts/moc_predefs.h -I/home/jack/Qt/5.12.6/gcc_64/mkspecs/linux-g++ -I/home/jack/Code/CommandGUI/Codebase/build/qt -I/home/jack/Code/CommandGUI/Codebase/build/qt -I/home/jack/Qt/5.12.6/gcc_64/include -I/home/jack/Qt/5.12.6/gcc_64/include/QtWidgets -I/home/jack/Qt/5.12.6/gcc_64/include/QtGui -I/home/jack/Qt/5.12.6/gcc_64/include/QtCore -I/usr/include/c++/8 -I/usr/include/x86_64-linux-gnu/c++/8 -I/usr/include/c++/8/backward -I/usr/lib/gcc/x86_64-linux-gnu/8/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/8/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../../src/ui/MenuPage.h -o artifacts/moc_MenuPage.cpp
@@ -1584,9 +1583,9 @@ compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean
 
 ####### Compile
 
-artifacts/CommandDescriptor.o: ../../src/CommandDescriptor.cpp /home/jack/Qt/5.12.6/gcc_64/include/QtCore/QString \
-		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qstring.h \
-		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qchar.h \
+artifacts/CommandDescriptor.o: ../../src/core/CommandDescriptor.cpp /home/jack/Qt/5.12.6/gcc_64/include/QtGui/QList \
+		/home/jack/Qt/5.12.6/gcc_64/include/QtGui/qevent.h \
+		/home/jack/Qt/5.12.6/gcc_64/include/QtGui/qtguiglobal.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qglobal.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qconfig-bootstrapped.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qconfig.h \
@@ -1608,20 +1607,10 @@ artifacts/CommandDescriptor.o: ../../src/CommandDescriptor.cpp /home/jack/Qt/5.1
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qmutex.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qnumeric.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qversiontagging.h \
-		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qbytearray.h \
-		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qrefcount.h \
-		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qnamespace.h \
-		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qarraydata.h \
-		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qstringliteral.h \
-		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qstringalgorithms.h \
-		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qstringview.h \
-		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qstringbuilder.h \
-		/home/jack/Qt/5.12.6/gcc_64/include/QtGui/QList \
-		/home/jack/Qt/5.12.6/gcc_64/include/QtGui/qevent.h \
-		/home/jack/Qt/5.12.6/gcc_64/include/QtGui/qtguiglobal.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtGui/qtgui-config.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtGui/qwindowdefs.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qobjectdefs.h \
+		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qnamespace.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qobjectdefs_impl.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtGui/qwindowdefs_win.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtGui/qregion.h \
@@ -1633,6 +1622,15 @@ artifacts/CommandDescriptor.o: ../../src/CommandDescriptor.cpp /home/jack/Qt/5.1
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qscopedpointer.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qiodevice.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qobject.h \
+		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qstring.h \
+		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qchar.h \
+		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qbytearray.h \
+		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qrefcount.h \
+		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qarraydata.h \
+		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qstringliteral.h \
+		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qstringalgorithms.h \
+		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qstringview.h \
+		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qstringbuilder.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qlist.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qalgorithms.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qiterator.h \
@@ -1676,11 +1674,11 @@ artifacts/CommandDescriptor.o: ../../src/CommandDescriptor.cpp /home/jack/Qt/5.1
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/QJsonArray \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qjsonarray.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/QDebug \
-		../../src/CommandDescriptor.h \
-		../../src/Exceptions.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o artifacts/CommandDescriptor.o ../../src/CommandDescriptor.cpp
+		../../src/core/CommandDescriptor.h \
+		../../src/core/Exceptions.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o artifacts/CommandDescriptor.o ../../src/core/CommandDescriptor.cpp
 
-artifacts/CommandManager.o: ../../src/CommandManager.cpp /home/jack/Qt/5.12.6/gcc_64/include/QtCore/QFile \
+artifacts/CommandManager.o: ../../src/core/CommandManager.cpp /home/jack/Qt/5.12.6/gcc_64/include/QtCore/QFile \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qfile.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qfiledevice.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qiodevice.h \
@@ -1758,8 +1756,7 @@ artifacts/CommandManager.o: ../../src/CommandManager.cpp /home/jack/Qt/5.12.6/gc
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/QStringList \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/QJsonObject \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qjsonobject.h \
-		../../src/CommandDescriptor.h \
-		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/QString \
+		../../src/core/CommandDescriptor.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtGui/QList \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtGui/qevent.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtGui/qtguiglobal.h \
@@ -1777,16 +1774,16 @@ artifacts/CommandManager.o: ../../src/CommandManager.cpp /home/jack/Qt/5.12.6/gc
 		/home/jack/Qt/5.12.6/gcc_64/include/QtGui/qvector2d.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtGui/qtouchdevice.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/QMap \
-		../../src/CommandManager.h \
+		../../src/core/CommandManager.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/QFileInfoList \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/QFileInfo \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/QByteArray \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/QJsonParseError \
-		../../src/Exceptions.h \
+		../../src/core/Exceptions.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/QCoreApplication \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qcoreapplication.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qeventloop.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o artifacts/CommandManager.o ../../src/CommandManager.cpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o artifacts/CommandManager.o ../../src/core/CommandManager.cpp
 
 artifacts/CommandPage.o: ../../src/ui/CommandPage.cpp /home/jack/Qt/5.12.6/gcc_64/include/QtWidgets/QWidget \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtWidgets/qwidget.h \
@@ -1934,7 +1931,7 @@ artifacts/CommandPage.o: ../../src/ui/CommandPage.cpp /home/jack/Qt/5.12.6/gcc_6
 		/home/jack/Qt/5.12.6/gcc_64/include/QtWidgets/QFormLayout \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtWidgets/qformlayout.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtWidgets/QLayout \
-		../../src/CommandDescriptor.h \
+		../../src/core/CommandDescriptor.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/QJsonDocument \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qjsondocument.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qjsonvalue.h \
@@ -1945,12 +1942,12 @@ artifacts/CommandPage.o: ../../src/ui/CommandPage.cpp /home/jack/Qt/5.12.6/gcc_6
 		/home/jack/Qt/5.12.6/gcc_64/include/QtWidgets/qtextedit.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtGui/qtextdocument.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtGui/QTextCursor \
-		../../src/Exceptions.h \
-		../../src/CommandTemplateParser.h \
+		../../src/core/Exceptions.h \
+		../../src/core/CommandTemplateParser.h \
 		../../src/ui/FileChooserButton.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o artifacts/CommandPage.o ../../src/ui/CommandPage.cpp
 
-artifacts/CommandTemplateParser.o: ../../src/CommandTemplateParser.cpp /home/jack/Qt/5.12.6/gcc_64/include/QtCore/QMap \
+artifacts/CommandTemplateParser.o: ../../src/core/CommandTemplateParser.cpp /home/jack/Qt/5.12.6/gcc_64/include/QtCore/QMap \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qmap.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qiterator.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qglobal.h \
@@ -2015,8 +2012,7 @@ artifacts/CommandTemplateParser.o: ../../src/CommandTemplateParser.cpp /home/jac
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qsharedpointer.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qsharedpointer_impl.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/QDebug \
-		../../src/CommandDescriptor.h \
-		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/QString \
+		../../src/core/CommandDescriptor.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtGui/QList \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtGui/qevent.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtGui/qtguiglobal.h \
@@ -2038,9 +2034,9 @@ artifacts/CommandTemplateParser.o: ../../src/CommandTemplateParser.cpp /home/jac
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/QJsonDocument \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qjsondocument.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qjsonvalue.h \
-		../../src/CommandTemplateParser.h \
-		../../src/Exceptions.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o artifacts/CommandTemplateParser.o ../../src/CommandTemplateParser.cpp
+		../../src/core/CommandTemplateParser.h \
+		../../src/core/Exceptions.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o artifacts/CommandTemplateParser.o ../../src/core/CommandTemplateParser.cpp
 
 artifacts/FileChooserButton.o: ../../src/ui/FileChooserButton.cpp /home/jack/Qt/5.12.6/gcc_64/include/QtWidgets/QFileDialog \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtWidgets/qfiledialog.h \
@@ -2457,16 +2453,16 @@ artifacts/MainWindow.o: ../../src/ui/MainWindow.cpp /home/jack/Qt/5.12.6/gcc_64/
 		/home/jack/Qt/5.12.6/gcc_64/include/QtWidgets/qscrollarea.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtWidgets/qabstractscrollarea.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtWidgets/qframe.h \
-		../../src/CommandDescriptor.h \
-		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/QString \
+		../../src/core/CommandDescriptor.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/QMap \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/QJsonDocument \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qjsondocument.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qjsonvalue.h \
-		../../src/Exceptions.h \
+		../../src/core/Exceptions.h \
 		../../src/ui/CommandPage.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtWidgets/QLabel \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtWidgets/qlabel.h \
+		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/QString \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtWidgets/QLineEdit \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtWidgets/qlineedit.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtGui/qtextcursor.h \
@@ -2484,7 +2480,7 @@ artifacts/MainWindow.o: ../../src/ui/MainWindow.cpp /home/jack/Qt/5.12.6/gcc_64/
 		/home/jack/Qt/5.12.6/gcc_64/include/QtWidgets/qtextedit.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtGui/qtextdocument.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtGui/QTextCursor \
-		../../src/CommandManager.h \
+		../../src/core/CommandManager.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/QFile \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/QIODevice \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/QDirIterator \
@@ -2500,10 +2496,9 @@ artifacts/MainWindow.o: ../../src/ui/MainWindow.cpp /home/jack/Qt/5.12.6/gcc_64/
 		../../src/ui/MainWindow.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o artifacts/MainWindow.o ../../src/ui/MainWindow.cpp
 
-artifacts/MenuPage.o: ../../src/ui/MenuPage.cpp /home/jack/Qt/5.12.6/gcc_64/include/QtWidgets/QWidget \
-		/home/jack/Qt/5.12.6/gcc_64/include/QtWidgets/qwidget.h \
-		/home/jack/Qt/5.12.6/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
-		/home/jack/Qt/5.12.6/gcc_64/include/QtGui/qtguiglobal.h \
+artifacts/MenuPage.o: ../../src/ui/MenuPage.cpp /home/jack/Qt/5.12.6/gcc_64/include/QtCore/QString \
+		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qstring.h \
+		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qchar.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qglobal.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qconfig-bootstrapped.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qconfig.h \
@@ -2525,23 +2520,25 @@ artifacts/MenuPage.o: ../../src/ui/MenuPage.cpp /home/jack/Qt/5.12.6/gcc_64/incl
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qmutex.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qnumeric.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qversiontagging.h \
-		/home/jack/Qt/5.12.6/gcc_64/include/QtGui/qtgui-config.h \
-		/home/jack/Qt/5.12.6/gcc_64/include/QtWidgets/qtwidgets-config.h \
-		/home/jack/Qt/5.12.6/gcc_64/include/QtGui/qwindowdefs.h \
-		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qobjectdefs.h \
-		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qnamespace.h \
-		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qobjectdefs_impl.h \
-		/home/jack/Qt/5.12.6/gcc_64/include/QtGui/qwindowdefs_win.h \
-		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qobject.h \
-		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qstring.h \
-		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qchar.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qbytearray.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qrefcount.h \
+		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qnamespace.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qarraydata.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qstringliteral.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qstringalgorithms.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qstringview.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qstringbuilder.h \
+		/home/jack/Qt/5.12.6/gcc_64/include/QtWidgets/QWidget \
+		/home/jack/Qt/5.12.6/gcc_64/include/QtWidgets/qwidget.h \
+		/home/jack/Qt/5.12.6/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
+		/home/jack/Qt/5.12.6/gcc_64/include/QtGui/qtguiglobal.h \
+		/home/jack/Qt/5.12.6/gcc_64/include/QtGui/qtgui-config.h \
+		/home/jack/Qt/5.12.6/gcc_64/include/QtWidgets/qtwidgets-config.h \
+		/home/jack/Qt/5.12.6/gcc_64/include/QtGui/qwindowdefs.h \
+		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qobjectdefs.h \
+		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/home/jack/Qt/5.12.6/gcc_64/include/QtGui/qwindowdefs_win.h \
+		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qobject.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qlist.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qalgorithms.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qiterator.h \
@@ -2619,14 +2616,13 @@ artifacts/MenuPage.o: ../../src/ui/MenuPage.cpp /home/jack/Qt/5.12.6/gcc_64/incl
 		/home/jack/Qt/5.12.6/gcc_64/include/QtWidgets/qabstractscrollarea.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtWidgets/qframe.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtGui/QList \
-		../../src/CommandDescriptor.h \
-		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/QString \
+		../../src/core/CommandDescriptor.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/QMap \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/QJsonDocument \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qjsondocument.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/qjsonvalue.h \
 		../../src/ui/MenuPage.h \
-		../../src/Exceptions.h
+		../../src/core/Exceptions.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o artifacts/MenuPage.o ../../src/ui/MenuPage.cpp
 
 artifacts/TerminalWidget.o: ../../src/ui/TerminalWidget.cpp /home/jack/Qt/5.12.6/gcc_64/include/QtWidgets/QSizePolicy \
@@ -2877,9 +2873,8 @@ artifacts/ApplicationQt.o: ../../src/ApplicationQt.cpp /home/jack/Qt/5.12.6/gcc_
 		/home/jack/Qt/5.12.6/gcc_64/include/QtWidgets/qgridlayout.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtWidgets/QWidget \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtGui/QCloseEvent \
-		../../src/CommandManager.h \
-		../../src/CommandDescriptor.h \
-		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/QString \
+		../../src/core/CommandManager.h \
+		../../src/core/CommandDescriptor.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtGui/QList \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/QMap \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/QJsonDocument \
@@ -2898,7 +2893,7 @@ artifacts/ApplicationQt.o: ../../src/ApplicationQt.cpp /home/jack/Qt/5.12.6/gcc_
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/QFileInfo \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/QByteArray \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/QJsonParseError \
-		../../src/Exceptions.h \
+		../../src/core/Exceptions.h \
 		../../src/ui/CommandPage.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtWidgets/QVBoxLayout \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtWidgets/QLabel \
@@ -2907,6 +2902,7 @@ artifacts/ApplicationQt.o: ../../src/ApplicationQt.cpp /home/jack/Qt/5.12.6/gcc_
 		/home/jack/Qt/5.12.6/gcc_64/include/QtWidgets/QPushButton \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtWidgets/qpushbutton.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtWidgets/qabstractbutton.h \
+		/home/jack/Qt/5.12.6/gcc_64/include/QtCore/QString \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtWidgets/QLineEdit \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtWidgets/qlineedit.h \
 		/home/jack/Qt/5.12.6/gcc_64/include/QtGui/qtextcursor.h \
