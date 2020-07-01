@@ -115,7 +115,7 @@ inline void CommandTemplateParser::textStep(QChar qc)
     
     if (printCharacter)
     {
-        print(std::to_string(c));
+        print({c});
     }
 }
 
@@ -162,7 +162,7 @@ inline void CommandTemplateParser::escapedStep(QChar qc)
         case '[':
         case ']':
             mode = TEXT;
-            print(std::to_string(c));
+            print({c});
         break;
             
         default:
