@@ -1,5 +1,6 @@
 #pragma once
 
+#include <string.h>
 #include <QWidget>
 #include <QFormLayout>
 #include <QLabel>
@@ -39,7 +40,7 @@ class FormWidget : public QWidget
         void addBooleanItem(QString name, QString label, bool def);
         void addFileItem(QString name, QString label, QString def, int type);
         void addDropDownItem(QString name, QString label, QString def, QList<DropDownListEntry>* entries);
-        QMap<QString, QString>* getFormData();
+        QMap<std::string, std::string>* getFormData();
         ~FormWidget();
         
     signals:

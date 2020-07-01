@@ -1,3 +1,4 @@
+#include <string.h>
 #include <QString>
 #include <QMap>
 #include <QFormLayout>
@@ -89,9 +90,9 @@ void FormWidget::addDropDownItem(QString name, QString label, QString defaultVal
     formMap -> insert(name, descriptor);
 }
 
-QMap<QString, QString>* FormWidget::getFormData()
+QMap<std::string, std::string>* FormWidget::getFormData()
 {
-    QMap<QString, QString>* map = new QMap<QString, QString>;
+    QMap<std::string, std::string>* map = new QMap<std::string, std::string>;
     
     QMap<QString, FormFieldDescriptor*>::iterator iterator = formMap -> begin();
     
@@ -129,7 +130,10 @@ QMap<QString, QString>* FormWidget::getFormData()
             break;
         }
         
-        map -> insert(name, value);
+        map -> insert(
+            name.toStdString(),
+            value.toStdString()
+        );
                 
         iterator++;
     }

@@ -79,26 +79,34 @@ void CommandPage::loadCommandDescriptor(CommandDescriptor* command)
     QList<VariableDescriptor*>* variables = command -> getVariableList();
     QString defaultValue;
     VariableDescriptor* vd;
+    QString name;
+    QString label;
     
     for (int i = 0; i < variables -> length(); i++)
     {
         vd = variables -> at(i);
-        defaultValue = vd->defaultValue;
+        defaultValue = QString::fromStdString(vd->defaultValue);
+        name = QString::fromStdString(*(vd -> name));
+        label = QString::fromStdString(*(vd -> label));
         
         switch (vd -> type)
         {
             case VariableDescriptor::TYPE_STRING:
-                formBox -> addTextItem(*(vd -> name), *(vd -> label), defaultValue);
+                formBox -> addTextItem(
+                    name,
+                    label,
+                    defaultValue
+                );
             break;
             
             case VariableDescriptor::TYPE_BOOLEAN:
                 if (defaultValue == "true")
                 {
-                    formBox -> addBooleanItem(*(vd -> name), *(vd -> label), true);
+                    formBox -> addBooleanItem(name, label, true);
                 }
                 else if (defaultValue == "false")
                 {
-                    formBox -> addBooleanItem(*(vd -> name), *(vd -> label), false);
+                    formBox -> addBooleanItem(name, label, false);
                 }
                 else
                 {
@@ -107,11 +115,11 @@ void CommandPage::loadCommandDescriptor(CommandDescriptor* command)
             break;
                 
             case VariableDescriptor::TYPE_FILE:
-                formBox -> addFileItem(*(vd -> name), *(vd -> label), defaultValue, FileChooserButton::FILE);
+                formBox -> addFileItem(name, label, defaultValue, FileChooserButton::FILE);
             break;
                 
             case VariableDescriptor::TYPE_FOLDER:
-                formBox->addFileItem(*(vd -> name), *(vd -> label), defaultValue, FileChooserButton::FOLDER);
+                formBox->addFileItem(name, label, defaultValue, FileChooserButton::FOLDER);
             break;
                 
             case VariableDescriptor::TYPE_MULTIPLE_CHOICE:
@@ -124,7 +132,7 @@ void CommandPage::loadCommandDescriptor(CommandDescriptor* command)
                         entry.value = (vd -> choices -> at(i) ).value;
                         entryList -> append(entry);
                     }                     
-                    formBox -> addDropDownItem(*(vd -> name), *(vd -> label), defaultValue, entryList);
+                    formBox -> addDropDownItem(name, label, defaultValue, entryList);
                 }
             break;
 
@@ -154,7 +162,7 @@ void CommandPage::copy()
 void CommandPage::updateTerminalInput()
 {
     qDebug() << "updateTerminalInput begins";
-    QMap<QString, QString>* dataMap = formBox -> getFormData();
+    QMap<std::string, std::string>* dataMap = formBox -> getFormData();
     
     CommandTemplateParser parser = CommandTemplateParser(commandDescriptor, dataMap);
     
@@ -162,12 +170,12 @@ void CommandPage::updateTerminalInput()
     
     if (parser.getError() == X_OKAY)
     {
-        terminalWidget -> setInput(parser.getResult());
+        terminalWidget -> setInput(QString::fromStdString(parser.getResult()));
     }
     else
     {
         exceptionCode = parser.getError();
-        errorMessage = parser.getErrorMessage();
+        errorMessage = QString::fromStdString(parser.getErrorMessage());
     }
     qDebug() << "updateTerminalInput ends";
 }

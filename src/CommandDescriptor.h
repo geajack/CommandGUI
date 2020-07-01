@@ -1,7 +1,6 @@
 #pragma once
 
 #include <string.h>
-#include <QString>
 #include <QList>
 #include <QMap>
 #include <QJsonDocument>
@@ -15,9 +14,9 @@ class VariableDescriptor
             QString value;
         };
         
-        QString* name;
-        QString* label;
-        QString defaultValue;
+        std::string* name;
+        std::string* label;
+        std::string defaultValue;
         int type;
         QList<VariableDescriptor::MultipleChoiceItem>* choices;
         
@@ -27,21 +26,21 @@ class VariableDescriptor
         static const int TYPE_FOLDER = 3;
         static const int TYPE_MULTIPLE_CHOICE = 4;
         
-        static VariableDescriptor* FromJSON(QJsonObject qJsonObj, QString* errorMessage);
+        static VariableDescriptor* FromJSON(QJsonObject qJsonObj, std::string* errorMessage);
 };
 
 class CommandDescriptor
 {
     public:
-        QString name;
-        QString templateString;
+        std::string name;
+        std::string templateString;
         QList<VariableDescriptor*>* variableList;
-        QMap<QString, VariableDescriptor*>* variableMap;
+        QMap<std::string, VariableDescriptor*>* variableMap;
         
         QList<VariableDescriptor*>* getVariableList();
-        QMap<QString, VariableDescriptor*>* getVariableMap();
+        QMap<std::string, VariableDescriptor*>* getVariableMap();
         
-        static CommandDescriptor* FromJSON(QJsonObject qJsonObj, QString* errorMessage);
+        static CommandDescriptor* FromJSON(QJsonObject qJsonObj, std::string* errorMessage);
 };
 
 struct CommandHeader

@@ -37,7 +37,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     }
     else
     {
-        showErrorMessage(commandManager->getErrorMessage());
+        showErrorMessage(QString::fromStdString(commandManager->getErrorMessage()));
     }
 }
 

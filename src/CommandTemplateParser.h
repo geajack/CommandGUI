@@ -1,7 +1,6 @@
 #pragma once
 
 #include <QMap>
-#include <QString>
 #include "CommandDescriptor.h"
 #include "Exceptions.h"
 
@@ -11,17 +10,17 @@ class CommandTemplateParser
         static const int VARIABLE_NAME = 1;
         static const int ESCAPED = 2;
         
-        QString input;
-        QString output;
+        std::string input;
+        std::string output;
         CommandDescriptor* commandDescriptor;
-        QMap<QString, QString>* variableMap;
+        QMap<std::string, std::string>* variableMap;
         ExceptionCode exceptionCode;
-        QString errorMessage;
+        std::string errorMessage;
         
         int mode;
         int depth;
         int depthSinceHidden;
-        QString variableName;
+        std::string variableName;
         
         void step(QChar qc);
         void textStep(QChar qc);
@@ -29,13 +28,13 @@ class CommandTemplateParser
         void escapedStep(QChar qc);
         void lastStep();
         
-        void print(QString s);
-        bool isVariableTrueOrNonEmpty(QString name);
+        void print(std::string s);
+        bool isVariableTrueOrNonEmpty(std::string name);
         
     public:
-        CommandTemplateParser(CommandDescriptor* commandDescriptor, QMap<QString, QString>* variableMap);
+        CommandTemplateParser(CommandDescriptor* commandDescriptor, QMap<std::string, std::string>* variableMap);
         void parse();
         ExceptionCode getError();
-        QString getErrorMessage();
-        QString getResult();
+        std::string getErrorMessage();
+        std::string getResult();
 };

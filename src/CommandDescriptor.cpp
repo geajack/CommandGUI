@@ -1,4 +1,3 @@
-#include <QString>
 #include <QList>
 #include <QMap>
 #include <QJsonDocument>
@@ -9,7 +8,7 @@
 #include "CommandDescriptor.h"
 #include "Exceptions.h"
 
-CommandDescriptor* CommandDescriptor::FromJSON(QJsonObject qJsonObj, QString* errorString)
+CommandDescriptor* CommandDescriptor::FromJSON(QJsonObject qJsonObj, std::string* errorString)
 {
     CommandDescriptor* cd = new CommandDescriptor();
 
@@ -31,20 +30,20 @@ CommandDescriptor* CommandDescriptor::FromJSON(QJsonObject qJsonObj, QString* er
         return 0;
     }
 
-    cd -> templateString = qJsonObj.value("templateString").toString();
-    cd -> variableMap = new QMap<QString, VariableDescriptor*>;
+    cd -> templateString = qJsonObj.value("templateString").toString().toStdString();
+    cd -> variableMap = new QMap<std::string, VariableDescriptor*>;
     cd -> variableList = new QList<VariableDescriptor*>;
     QJsonArray variables = qJsonObj.value("variables").toArray();
 
     VariableDescriptor* vd;
-    QString variableErrorString;
+    std::string variableErrorString;
     for (int i = 0; i < variables.count(); i++)
     {
         vd = VariableDescriptor::FromJSON(variables.at(i).toObject(), &variableErrorString);
 
         if (vd == 0)
         {
-            *errorString = "There was a problem parsing variable number " + QString::number(i + 1) + " of your variable list. ";
+            *errorString = "There was a problem parsing variable number " + std::to_string(i + 1) + " of your variable list. ";
             *errorString += variableErrorString;
             return 0;
         }
@@ -61,12 +60,12 @@ QList<VariableDescriptor*>* CommandDescriptor::getVariableList()
     return variableList;
 }
 
-QMap<QString, VariableDescriptor*>* CommandDescriptor::getVariableMap()
+QMap<std::string, VariableDescriptor*>* CommandDescriptor::getVariableMap()
 {
     return variableMap;
 }
 
-VariableDescriptor* VariableDescriptor::FromJSON(QJsonObject qJsonObj, QString* errorString)
+VariableDescriptor* VariableDescriptor::FromJSON(QJsonObject qJsonObj, std::string* errorString)
 {
     VariableDescriptor* vd = new VariableDescriptor();
 
@@ -210,12 +209,16 @@ VariableDescriptor* VariableDescriptor::FromJSON(QJsonObject qJsonObj, QString* 
             }
             else
             {
-                vd -> defaultValue = qJsonObj.value("default").toString();
+                vd -> defaultValue = qJsonObj.value("default").toString().toStdString();
             }
         }
     }
 
-    vd -> label = new QString(qJsonObj.value("label").toString());
-    vd -> name  = new QString(qJsonObj.value("name").toString());
+    vd -> label = new std::string(
+        qJsonObj.value("label").toString().toStdString()
+    );
+    vd -> name  = new std::string(
+        qJsonObj.value("name").toString().toStdString()
+    );
     return vd;
 }

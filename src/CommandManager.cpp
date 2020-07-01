@@ -65,7 +65,7 @@ CommandDescriptor* CommandManager::getCommandDescriptor(int id)
         if (file.error())
         {
             exceptionCode = X_FILE_UNREADABLE;
-            errorMessage  = "There was a problem with the file " + fileInfoList -> at(id).filePath() + ". ";
+            errorMessage  = "There was a problem with the file " + (fileInfoList -> at(id).filePath()).toStdString() + ". ";
             errorMessage  += "Is it corrupted or missing?";
             throw 0;
         }
@@ -77,7 +77,7 @@ CommandDescriptor* CommandManager::getCommandDescriptor(int id)
         {
             exceptionCode = X_BAD_JSON_SYNTAX;
             setErrorMessage(jsonParseError, fileContents);
-            errorMessage = "There was a problem with the file " + fileInfoList -> at(id).filePath() + ".\n\n" + errorMessage;
+            errorMessage = "There was a problem with the file " + (fileInfoList -> at(id).filePath()).toStdString() + ".\n\n" + errorMessage;
             throw 0;
         }
         
@@ -86,7 +86,7 @@ CommandDescriptor* CommandManager::getCommandDescriptor(int id)
         if (cd == 0)
         {
             exceptionCode = X_BAD_JSON_SEMANTICS;
-            errorMessage = "There was a problem with the file " + fileInfoList -> at(id).filePath() + ".\n\n" + errorMessage;
+            errorMessage = "There was a problem with the file " + (fileInfoList -> at(id).filePath()).toStdString() + ".\n\n" + errorMessage;
             throw 0;
         }
     }
@@ -116,7 +116,7 @@ void CommandManager::setErrorMessage(QJsonParseError jsonParseError, QByteArray 
         i++;
     }
     
-    errorMessage = "There was a problem parsing your JSON around line " + QString::number(lineNumber) + ".\n";
+    errorMessage = "There was a problem parsing your JSON around line " + std::to_string(lineNumber) + ".\n";
     
     switch(jsonParseError.error)
     {
@@ -183,7 +183,7 @@ ExceptionCode CommandManager::getError()
     return exceptionCode;
 }
 
-QString CommandManager::getErrorMessage()
+std::string CommandManager::getErrorMessage()
 {
     return errorMessage;
 }

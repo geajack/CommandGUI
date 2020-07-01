@@ -4,7 +4,7 @@
 #include "CommandTemplateParser.h"
 #include "Exceptions.h"
 
-CommandTemplateParser::CommandTemplateParser(CommandDescriptor *commandDescriptor, QMap<QString, QString>* variableMap)
+CommandTemplateParser::CommandTemplateParser(CommandDescriptor *commandDescriptor, QMap<std::string, std::string>* variableMap)
 {
     this -> commandDescriptor = commandDescriptor;
     this -> variableMap = variableMap;
@@ -96,7 +96,7 @@ inline void CommandTemplateParser::textStep(QChar qc)
     }
     
     
-    if (! variableName.isEmpty())
+    if (! variableName.empty())
     {
         if (printVariable)
         {
@@ -116,11 +116,11 @@ inline void CommandTemplateParser::textStep(QChar qc)
     
     if (printCharacter)
     {
-        print(QString(qc));
+        print(std::to_string(c));
     }
 }
 
-inline bool CommandTemplateParser::isVariableTrueOrNonEmpty(QString name)
+inline bool CommandTemplateParser::isVariableTrueOrNonEmpty(std::string name)
 {
     VariableDescriptor* vd = commandDescriptor -> getVariableMap() -> value(name);
     if (vd -> type == VariableDescriptor::TYPE_BOOLEAN)
@@ -129,7 +129,7 @@ inline bool CommandTemplateParser::isVariableTrueOrNonEmpty(QString name)
     }
     else
     {
-        return ! (variableMap -> value(name)).isEmpty();
+        return ! (variableMap -> value(name)).empty();
     }
 }
 
@@ -143,7 +143,7 @@ inline void CommandTemplateParser::variableNameStep(QChar qc)
     }
     else if (qc.isLetterOrNumber())
     {
-        variableName += qc;
+        variableName += c;
     }
     else
     {
@@ -163,7 +163,7 @@ inline void CommandTemplateParser::escapedStep(QChar qc)
         case '[':
         case ']':
             mode = TEXT;
-            print(qc);
+            print(std::to_string(c));
         break;
             
         default:
@@ -178,7 +178,7 @@ void CommandTemplateParser::lastStep()
     switch (mode)
     {
         case TEXT:
-            if (! variableName.isEmpty())
+            if (! variableName.empty())
             {
                 if (commandDescriptor -> getVariableMap() -> value(variableName) -> type == VariableDescriptor::TYPE_BOOLEAN)
                 {
@@ -205,7 +205,7 @@ void CommandTemplateParser::lastStep()
     }
 }
 
-void CommandTemplateParser::print(QString s)
+void CommandTemplateParser::print(std::string s)
 {
     if (depthSinceHidden == 0)
     {
@@ -223,7 +223,7 @@ void CommandTemplateParser::parse()
     output = "";
     variableName = "";
     
-    int n = input.count();
+    int n = input.length();
     try
     {
         for (int i = 0; i < n; i++)
@@ -236,7 +236,7 @@ void CommandTemplateParser::parse()
     catch (QString msg)
     {
         errorMessage = "There was a problem parsing the template string. ";
-        errorMessage += msg;
+        errorMessage += msg.toStdString();
     }
 }
 
@@ -245,12 +245,12 @@ ExceptionCode CommandTemplateParser::getError()
     return exceptionCode;
 }
 
-QString CommandTemplateParser::getErrorMessage()
+std::string CommandTemplateParser::getErrorMessage()
 {
     return errorMessage;
 }
 
-QString CommandTemplateParser::getResult()
+std::string CommandTemplateParser::getResult()
 {
-    return output.simplified();
+    return output;
 }

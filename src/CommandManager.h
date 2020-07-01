@@ -19,7 +19,7 @@ class CommandManager
         QList<CommandHeader>* commandHeaders;
         QFileInfoList* fileInfoList;
         ExceptionCode exceptionCode;
-        QString errorMessage;
+        std::string errorMessage;
         void setErrorMessage(QJsonParseError jsonParseError, QByteArray fileContents);
         
     public:
@@ -28,6 +28,6 @@ class CommandManager
         QList<CommandHeader>* getHeaders();
         CommandDescriptor* getCommandDescriptor(int id);
         ExceptionCode getError();
-        QString getErrorMessage();
+        std::string getErrorMessage();
         int commandCount;
 };
