@@ -1,0 +1,6 @@
+{
+    "C_Cpp.default.includePath": [
+        "/home/jack/Qt/5.12.6/gcc_64/include/QtWidgets",
+        "/home/jack/Qt/5.12.6/gcc_64/include/QtGui"
+    ]
+}
