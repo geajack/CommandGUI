@@ -1,9 +1,9 @@
 #include <QApplication>
 
-#include "Application.h"
+#include "ApplicationQt.h"
 #include "ui/MainWindow.h"
 
-int Application::execute()
+int ApplicationQt::execute()
 {
     int argc = 0;
     QApplication a(argc, NULL);
