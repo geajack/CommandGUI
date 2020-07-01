@@ -1,12 +1,15 @@
 {
     "C_Cpp.default.includePath": [
+        "/home/jack/Qt/5.12.6/gcc_64/include",
         "/home/jack/Qt/5.12.6/gcc_64/include/QtWidgets",
-        "/home/jack/Qt/5.12.6/gcc_64/include/QtGui"
+        "/home/jack/Qt/5.12.6/gcc_64/include/QtGui",
+        "/home/jack/Qt/5.12.6/gcc_64/include/QtCore"
     ],
     "files.associations": {
         "numeric": "cpp",
         "istream": "cpp",
         "typeinfo": "cpp",
-        "variant": "cpp"
+        "variant": "cpp",
+        "qbytearray": "cpp"
     }
 }
