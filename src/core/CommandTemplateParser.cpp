@@ -1,13 +1,17 @@
-#include <QMap>
 #include "CommandDescriptor.h"
 #include "CommandTemplateParser.h"
 #include "Exceptions.h"
 
-CommandTemplateParser::CommandTemplateParser(CommandDescriptor *commandDescriptor, QMap<std::string, std::string>* variableMap)
+CommandTemplateParser::CommandTemplateParser(CommandDescriptor *commandDescriptor)
 {
     this -> commandDescriptor = commandDescriptor;
-    this -> variableMap = variableMap;
+    this -> variableMap = new std::map<std::string, std::string>;
     this -> input = (commandDescriptor -> templateString);
+}
+
+void CommandTemplateParser::addVariable(const std::string *name, const std::string *value)
+{
+    (*variableMap)[*name] = *value;
 }
 
 inline void CommandTemplateParser::step(QChar qc)
@@ -106,7 +110,7 @@ inline void CommandTemplateParser::textStep(QChar qc)
             }
             else
             {
-                print(variableMap -> value(variableName));
+                print(variableMap -> at(variableName));
             }
         }
         variableName = "";
@@ -124,11 +128,11 @@ inline bool CommandTemplateParser::isVariableTrueOrNonEmpty(std::string name)
     VariableDescriptor* vd = commandDescriptor -> getVariableMap() -> value(name);
     if (vd -> type == VariableDescriptor::TYPE_BOOLEAN)
     {
-        return (variableMap -> value(name)) == "true";
+        return (variableMap -> at(name)) == "true";
     }
     else
     {
-        return ! (variableMap -> value(name)).empty();
+        return ! (variableMap -> at(name)).empty();
     }
 }
 
@@ -186,7 +190,7 @@ void CommandTemplateParser::lastStep()
                 }
                 else
                 {
-                    print(variableMap -> value(variableName));
+                    print(variableMap -> at(variableName));
                 }
                 variableName = "";
             }

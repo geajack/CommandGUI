@@ -164,7 +164,14 @@ void CommandPage::updateTerminalInput()
     qDebug() << "updateTerminalInput begins";
     QMap<std::string, std::string>* dataMap = formBox -> getFormData();
     
-    CommandTemplateParser parser = CommandTemplateParser(commandDescriptor, dataMap);
+    CommandTemplateParser parser = CommandTemplateParser(commandDescriptor);
+
+    QMapIterator<std::string, std::string> iterator(*dataMap);
+    while (iterator.hasNext())
+    {
+        iterator.next();
+        parser.addVariable(&iterator.key(), &iterator.value());
+    }
     
     parser.parse();
     

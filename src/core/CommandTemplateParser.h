@@ -1,6 +1,6 @@
 #pragma once
 
-#include <QMap>
+#include <map>
 #include "CommandDescriptor.h"
 #include "Exceptions.h"
 
@@ -13,7 +13,7 @@ class CommandTemplateParser
         std::string input;
         std::string output;
         CommandDescriptor* commandDescriptor;
-        QMap<std::string, std::string>* variableMap;
+        std::map<std::string, std::string>* variableMap;
         ExceptionCode exceptionCode;
         std::string errorMessage;
         
@@ -32,8 +32,9 @@ class CommandTemplateParser
         bool isVariableTrueOrNonEmpty(std::string name);
         
     public:
-        CommandTemplateParser(CommandDescriptor* commandDescriptor, QMap<std::string, std::string>* variableMap);
+        CommandTemplateParser(CommandDescriptor* commandDescriptor);
         void parse();
+        void addVariable(const std::string *name, const std::string *value);
         ExceptionCode getError();
         std::string getErrorMessage();
         std::string getResult();
