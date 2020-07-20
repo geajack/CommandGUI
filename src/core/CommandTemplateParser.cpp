@@ -14,7 +14,7 @@ void CommandTemplateParser::addVariable(const std::string *name, const std::stri
     (*variableMap)[*name] = *value;
 }
 
-inline void CommandTemplateParser::step(QChar qc)
+inline void CommandTemplateParser::step(char qc)
 {
     switch (mode)
     {
@@ -32,9 +32,9 @@ inline void CommandTemplateParser::step(QChar qc)
     }
 }
 
-inline void CommandTemplateParser::textStep(QChar qc)
+inline void CommandTemplateParser::textStep(char qc)
 {
-    char c = qc.toLatin1();
+    char c = qc;
     
     bool printVariable  = false; // If we just finished parsing a variable name, print it.
     bool printCharacter = false;
@@ -136,28 +136,28 @@ inline bool CommandTemplateParser::isVariableTrueOrNonEmpty(std::string name)
     }
 }
 
-inline void CommandTemplateParser::variableNameStep(QChar qc)
+inline void CommandTemplateParser::variableNameStep(char qc)
 {
-    char c = qc.toLatin1();
+    char c = qc;
     
     if (c == '%')
     {
         mode = TEXT;
     }
-    else if (qc.isLetterOrNumber())
+    else if ('A' <= c <= 'Z' || 'a' <= c <= 'z' || '0' <= c <= '9')
     {
         variableName += c;
     }
     else
     {
         exceptionCode = X_BAD_TEMPLATE;
-        throw "Variable names can only contain letters and numbers. I found a variable name containing a \"" + QString(qc) + "\".";
+        throw "Variable names can only contain letters and numbers. I found a variable name containing a \"" + std::string({qc}) + "\".";
     }
 }
 
-inline void CommandTemplateParser::escapedStep(QChar qc)
+inline void CommandTemplateParser::escapedStep(char qc)
 {
-    char c = qc.toLatin1();
+    char c = qc;
     
     switch (c)
     {
@@ -236,10 +236,10 @@ void CommandTemplateParser::parse()
         
         lastStep();
     }
-    catch (QString msg)
+    catch (std::string msg)
     {
         errorMessage = "There was a problem parsing the template string. ";
-        errorMessage += msg.toStdString();
+        errorMessage += msg;
     }
 }
 

@@ -1,8 +1,6 @@
 #pragma once
 
 #include <map>
-#include <QChar>
-#include <QString>
 #include "CommandDescriptor.h"
 #include "Exceptions.h"
 
@@ -24,10 +22,10 @@ class CommandTemplateParser
         int depthSinceHidden;
         std::string variableName;
         
-        void step(QChar qc);
-        void textStep(QChar qc);
-        void variableNameStep(QChar qc);
-        void escapedStep(QChar qc);
+        void step(char qc);
+        void textStep(char qc);
+        void variableNameStep(char qc);
+        void escapedStep(char qc);
         void lastStep();
         
         void print(std::string s);
