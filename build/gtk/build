@@ -4,7 +4,6 @@ g++ \
     -std=c++17 \
     -g \
     -DCOMMANDGUI_UI_PLATFORM_GTK=1 \
-    `pkg-config --cflags gtk+-3.0` \
     -I lib/include \
     -I src \
     -Lsrc \
@@ -12,5 +11,5 @@ g++ \
     src/ApplicationGTK.cpp \
     src/core/*.cpp \
     lib/*.c \
-    `pkg-config --libs gtk+-3.0` \
+    `pkg-config gtkmm-3.0 --cflags --libs` \
     -o bin/CommandGUI

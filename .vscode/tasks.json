@@ -10,6 +10,16 @@
             "problemMatcher": [],
             "group": {
                 "kind": "build",
+                "isDefault": false
+            }
+        },
+        {
+            "label": "Build and run (GTK)",
+            "type": "shell",
+            "command": "build/gtk/build && bin/CommandGUI",
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
                 "isDefault": true
             }
         }
