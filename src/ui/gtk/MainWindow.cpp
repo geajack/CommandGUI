@@ -9,6 +9,7 @@ MainWindow::MainWindow()
     set_border_width(5);
 
     tabs.set_show_tabs(false);
+    tabs.set_show_border(false);
 
     Gtk::Box *mainPage = new Gtk::Box;
     mainPage->set_orientation(Gtk::ORIENTATION_VERTICAL);   
