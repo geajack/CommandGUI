@@ -2,13 +2,7 @@
 
 #include "CommandDescriptor.h"
 #include <stdio.h>
-#include <QFile>
-#include <QIODevice>
-#include <QDebug>
-#include <QDirIterator>
 #include <QFileInfoList>
-#include <QFileInfo>
-#include <QByteArray>
 #include "Exceptions.h"
 
 class CommandManager
