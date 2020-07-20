@@ -1,6 +1,12 @@
 #include "MainWindow.h"
+#include "CommandPage.h"
 #include "../../core/CommandManager.h"
 #include <iostream>
+
+void onClicked(int commandID)
+{
+    std::cout << commandID << "\n";
+}
 
 MainWindow::MainWindow()
 {
@@ -9,9 +15,16 @@ MainWindow::MainWindow()
 
     set_border_width(5);
 
-    Gtk::Box *box = new Gtk::Box;
-    box->set_orientation(Gtk::ORIENTATION_VERTICAL);
-    add(*box);
+    auto *tabs = new Gtk::Notebook;
+    // tabs->set_show_tabs(false);
+    add(*tabs);
+
+    Gtk::Box *mainPage = new Gtk::Box;
+    mainPage->set_orientation(Gtk::ORIENTATION_VERTICAL);
+    tabs->add(*mainPage);
+
+    CommandPage *commandPage = new CommandPage;
+    tabs->add(*commandPage);
 
     CommandManager commandManager;
     commandManager.initialize("/home/jack/Code/CommandGUI/Codebase/bin/commands");
@@ -26,7 +39,13 @@ MainWindow::MainWindow()
         {
             button->set_margin_top(5);
         }
-        box->add(*button);
+        button->signal_clicked().connect(
+            sigc::bind<int>(
+                sigc::ptr_fun(&onClicked),
+                header.id
+            )
+        );
+        mainPage->add(*button);
     }
 
     show_all_children();
