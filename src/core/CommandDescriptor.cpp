@@ -11,6 +11,19 @@ CommandDescriptor* CommandDescriptor::FromJSON(cJSON *json, std::string* errorSt
         return 0;
     }
 
+    if (!cJSON_HasObjectItem(json, "name"))
+    {
+        *errorString = "There was no name.";
+        return 0;
+    }
+
+    cJSON *nameJSON = cJSON_GetObjectItem(json, "name");
+    if (!cJSON_IsString(nameJSON))
+    {
+        *errorString = "The name value was not a string.";
+        return 0;
+    }
+
     if (!cJSON_HasObjectItem(json, "templateString"))
     {
         *errorString = "There was no template string.";
@@ -37,6 +50,7 @@ CommandDescriptor* CommandDescriptor::FromJSON(cJSON *json, std::string* errorSt
         return 0;
     }
 
+    cd -> name = std::string(cJSON_GetStringValue(nameJSON));
     cd -> templateString = std::string(cJSON_GetStringValue(templateStringJSON));
     cd -> variableMap = new std::map<std::string, VariableDescriptor*>;
     cd -> variableList = new std::vector<VariableDescriptor*>;

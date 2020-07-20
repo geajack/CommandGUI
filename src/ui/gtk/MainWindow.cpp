@@ -1,6 +1,4 @@
 #include "MainWindow.h"
-#include "CommandPage.h"
-#include "../../core/CommandManager.h"
 #include <iostream>
 
 MainWindow::MainWindow()
@@ -10,18 +8,11 @@ MainWindow::MainWindow()
 
     set_border_width(5);
 
-    auto *tabs = new Gtk::Notebook;
-    // tabs->set_show_tabs(false);
-    add(*tabs);
+    tabs.set_show_tabs(false);
 
     Gtk::Box *mainPage = new Gtk::Box;
-    mainPage->set_orientation(Gtk::ORIENTATION_VERTICAL);
-    tabs->add(*mainPage);
+    mainPage->set_orientation(Gtk::ORIENTATION_VERTICAL);   
 
-    CommandPage *commandPage = new CommandPage;
-    tabs->add(*commandPage);
-
-    CommandManager commandManager;
     commandManager.initialize("/home/jack/Code/CommandGUI/Codebase/bin/commands");
     
     auto headers = commandManager.getHeaders();
@@ -43,10 +34,19 @@ MainWindow::MainWindow()
         mainPage->add(*button);
     }
 
+    tabs.add(*mainPage);
+    tabs.add(commandPage);
+    add(tabs);
+
     show_all_children();
 }
 
 void MainWindow::onCommandClicked(int commandID)
 {
     std::cout << commandID << "\n";
+
+    CommandDescriptor *commandDescriptor = commandManager.getCommandDescriptor(commandID);
+    commandPage.loadCommandDescriptor(commandDescriptor);
+
+    tabs.set_current_page(1);
 }

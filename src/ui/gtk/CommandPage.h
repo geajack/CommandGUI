@@ -6,4 +6,6 @@ class CommandPage : public Gtk::Box
     public:
         CommandPage();
         void loadCommandDescriptor(CommandDescriptor *descriptor);
+    private:
+        Gtk::Label label;
 };
