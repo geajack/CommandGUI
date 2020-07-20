@@ -12,6 +12,7 @@
 #include <QFileInfo>
 #include <QJsonParseError>
 #include <QCoreApplication>
+#include "cJSON.h"
 
 CommandManager::CommandManager()
 {

@@ -5,6 +5,7 @@
 TEMPLATE = app
 TARGET = CommandGUI
 INCLUDEPATH += .
+INCLUDEPATH += ../../lib/include
 
 # You can make your code fail to compile if you use deprecated APIs.
 # In order to do so, uncomment the following line.
@@ -26,8 +27,9 @@ HEADERS += ../../src/core/CommandDescriptor.h \
            ../../src/ui/MainWindow.h \
            ../../src/ui/MenuPage.h \
            ../../src/ui/TerminalWidget.h \
-           ../../src/Application.h
-           ../../src/ApplicationQt.h
+           ../../src/Application.h \
+           ../../src/ApplicationQt.h \
+           ../../lib/include/cJSON.h
 SOURCES += ../../src/core/CommandDescriptor.cpp \
            ../../src/core/CommandManager.cpp \
            ../../src/ui/CommandPage.cpp \
@@ -38,7 +40,8 @@ SOURCES += ../../src/core/CommandDescriptor.cpp \
            ../../src/ui/MainWindow.cpp \
            ../../src/ui/MenuPage.cpp \
            ../../src/ui/TerminalWidget.cpp \
-           ../../src/ApplicationQt.cpp
+           ../../src/ApplicationQt.cpp \
+           ../../lib/cJSON.c
 
 QT += widgets
 DESTDIR = ../../bin
