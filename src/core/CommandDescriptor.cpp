@@ -1,4 +1,3 @@
-#include <QMap>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonValue>
@@ -29,7 +28,7 @@ CommandDescriptor* CommandDescriptor::FromJSON(QJsonObject qJsonObj, std::string
     }
 
     cd -> templateString = qJsonObj.value("templateString").toString().toStdString();
-    cd -> variableMap = new QMap<std::string, VariableDescriptor*>;
+    cd -> variableMap = new std::map<std::string, VariableDescriptor*>;
     cd -> variableList = new std::vector<VariableDescriptor*>;
     QJsonArray variables = qJsonObj.value("variables").toArray();
 
@@ -46,7 +45,7 @@ CommandDescriptor* CommandDescriptor::FromJSON(QJsonObject qJsonObj, std::string
             return 0;
         }
 
-        cd -> variableMap -> insert(*(vd -> name), vd);
+        (*(cd -> variableMap))[*(vd -> name)] = vd;
         cd -> variableList -> push_back(vd);
     }
 
@@ -60,7 +59,7 @@ std::vector<VariableDescriptor*>* CommandDescriptor::getVariableList()
 
 VariableDescriptor* CommandDescriptor::getVariable(std::string name)
 {
-    return variableMap -> value(name);
+    return (*variableMap)[name];
 }
 
 VariableDescriptor* VariableDescriptor::FromJSON(QJsonObject qJsonObj, std::string* errorString)

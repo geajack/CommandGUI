@@ -2,7 +2,7 @@
 
 #include <string.h>
 #include <vector>
-#include <QMap>
+#include <map>
 #include <QJsonDocument>
 
 class VariableDescriptor
@@ -35,12 +35,13 @@ class CommandDescriptor
         std::string name;
         std::string templateString;
         std::vector<VariableDescriptor*>* variableList;
-        QMap<std::string, VariableDescriptor*>* variableMap;
         
         std::vector<VariableDescriptor*>* getVariableList();
         VariableDescriptor* getVariable(std::string name);
         
         static CommandDescriptor* FromJSON(QJsonObject qJsonObj, std::string* errorMessage);
+    private:
+        std::map<std::string, VariableDescriptor*>* variableMap;
 };
 
 struct CommandHeader
