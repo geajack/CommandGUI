@@ -19,7 +19,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     
     if (commandManager -> getError() == X_OKAY)
     {
-        QList<CommandHeader>* headers = commandManager -> getHeaders();
+        std::vector<CommandHeader>* headers = commandManager -> getHeaders();
         
         QWidget* centralWidget = new QWidget();
         layout = new QStackedLayout();

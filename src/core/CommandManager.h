@@ -16,7 +16,7 @@
 
 class CommandManager
 {
-        QList<CommandHeader>* commandHeaders;
+        std::vector<CommandHeader>* commandHeaders;
         QFileInfoList* fileInfoList;
         ExceptionCode exceptionCode;
         std::string errorMessage;
@@ -25,7 +25,7 @@ class CommandManager
     public:
         CommandManager();
         void initialize();
-        QList<CommandHeader>* getHeaders();
+        std::vector<CommandHeader>* getHeaders();
         CommandDescriptor* getCommandDescriptor(int id);
         ExceptionCode getError();
         std::string getErrorMessage();

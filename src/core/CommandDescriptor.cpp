@@ -1,4 +1,3 @@
-#include <QList>
 #include <QMap>
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -31,7 +30,7 @@ CommandDescriptor* CommandDescriptor::FromJSON(QJsonObject qJsonObj, std::string
 
     cd -> templateString = qJsonObj.value("templateString").toString().toStdString();
     cd -> variableMap = new QMap<std::string, VariableDescriptor*>;
-    cd -> variableList = new QList<VariableDescriptor*>;
+    cd -> variableList = new std::vector<VariableDescriptor*>;
     QJsonArray variables = qJsonObj.value("variables").toArray();
 
     VariableDescriptor* vd;
@@ -48,13 +47,13 @@ CommandDescriptor* CommandDescriptor::FromJSON(QJsonObject qJsonObj, std::string
         }
 
         cd -> variableMap -> insert(*(vd -> name), vd);
-        cd -> variableList -> append(vd);
+        cd -> variableList -> push_back(vd);
     }
 
     return cd;
 }
 
-QList<VariableDescriptor*>* CommandDescriptor::getVariableList()
+std::vector<VariableDescriptor*>* CommandDescriptor::getVariableList()
 {
     return variableList;
 }
@@ -142,7 +141,7 @@ VariableDescriptor* VariableDescriptor::FromJSON(QJsonObject qJsonObj, std::stri
 
         vd -> type = VariableDescriptor::TYPE_MULTIPLE_CHOICE;
         vd -> defaultValue = "";
-        vd -> choices = new QList<VariableDescriptor::MultipleChoiceItem>;
+        vd -> choices = new std::vector<VariableDescriptor::MultipleChoiceItem>;
         QJsonArray choices = qJsonObj.value("choices").toArray();
         QJsonObject choiceJsonObj;
         VariableDescriptor::MultipleChoiceItem item;
@@ -176,7 +175,7 @@ VariableDescriptor* VariableDescriptor::FromJSON(QJsonObject qJsonObj, std::stri
 
             item.value = choiceJsonObj.value("value").toString().toStdString();
             item.label  = choiceJsonObj.value("label").toString().toStdString();
-            vd -> choices -> append(item);
+            vd -> choices -> push_back(item);
         }
     }
     else

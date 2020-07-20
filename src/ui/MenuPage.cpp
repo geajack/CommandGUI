@@ -21,10 +21,10 @@ MenuPage::MenuPage(QWidget* parent) : QScrollArea(parent)
     connect(signalMapper, SIGNAL(mapped(int)), this, SIGNAL(choseItem(int)));
 }
 
-void MenuPage::loadCommandHeaders(QList<CommandHeader>* headers)
+void MenuPage::loadCommandHeaders(std::vector<CommandHeader>* headers)
 {
     QPushButton* button;
-    for (int i = 0; i < headers->length(); i++)
+    for (int i = 0; i < headers->size(); i++)
     {
         button = new QPushButton(QString::fromStdString(*headers->at(i).name));
         layout -> addWidget(button);

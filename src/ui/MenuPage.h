@@ -17,7 +17,7 @@ class MenuPage : public QScrollArea
     
     public:
         explicit MenuPage(QWidget *parent = 0);
-        void loadCommandHeaders(QList<CommandHeader>* headers);
+        void loadCommandHeaders(std::vector<CommandHeader>* headers);
         
     signals:
         void choseItem(int id);

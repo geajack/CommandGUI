@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string.h>
-#include <QList>
+#include <vector>
 #include <QMap>
 #include <QJsonDocument>
 
@@ -18,7 +18,7 @@ class VariableDescriptor
         std::string* label;
         std::string defaultValue;
         int type;
-        QList<VariableDescriptor::MultipleChoiceItem>* choices;
+        std::vector<VariableDescriptor::MultipleChoiceItem>* choices;
         
         static const int TYPE_STRING = 0;
         static const int TYPE_BOOLEAN = 1;
@@ -34,10 +34,10 @@ class CommandDescriptor
     public:
         std::string name;
         std::string templateString;
-        QList<VariableDescriptor*>* variableList;
+        std::vector<VariableDescriptor*>* variableList;
         QMap<std::string, VariableDescriptor*>* variableMap;
         
-        QList<VariableDescriptor*>* getVariableList();
+        std::vector<VariableDescriptor*>* getVariableList();
         QMap<std::string, VariableDescriptor*>* getVariableMap();
         
         static CommandDescriptor* FromJSON(QJsonObject qJsonObj, std::string* errorMessage);

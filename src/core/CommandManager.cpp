@@ -9,7 +9,6 @@
 #include "CommandManager.h"
 #include <QMap>
 #include <QFileInfoList>
-#include <QList>
 #include <QFileInfo>
 #include <QJsonParseError>
 #include <QCoreApplication>
@@ -34,16 +33,16 @@ void CommandManager::initialize()
     }
 }
 
-QList<CommandHeader>* CommandManager::getHeaders()
+std::vector<CommandHeader>* CommandManager::getHeaders()
 {
-    QList<CommandHeader>* list = new QList<CommandHeader>;
+    std::vector<CommandHeader>* list = new std::vector<CommandHeader>;
     CommandHeader header;
     
-    for (int i = 0; i < fileInfoList->length(); i++)
+    for (int i = 0; i < fileInfoList->size(); i++)
     {
         header.id   = i;
         header.name = new std::string(fileInfoList->at(i).baseName().toStdString());
-        list->append(header);
+        list->push_back(header);
     }
     return list;
 }

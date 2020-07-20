@@ -76,13 +76,13 @@ void CommandPage::loadCommandDescriptor(CommandDescriptor* command)
     
     formBox = new FormWidget();    
     
-    QList<VariableDescriptor*>* variables = command -> getVariableList();
+    std::vector<VariableDescriptor*>* variables = command -> getVariableList();
     QString defaultValue;
     VariableDescriptor* vd;
     QString name;
     QString label;
     
-    for (int i = 0; i < variables -> length(); i++)
+    for (int i = 0; i < variables -> size(); i++)
     {
         vd = variables -> at(i);
         defaultValue = QString::fromStdString(vd->defaultValue);
@@ -126,7 +126,7 @@ void CommandPage::loadCommandDescriptor(CommandDescriptor* command)
                 {
                     QList<DropDownListEntry>* entryList = new QList<DropDownListEntry>;
                     DropDownListEntry entry;
-                    for (int i = 0; i < vd -> choices -> length(); i++)
+                    for (int i = 0; i < vd -> choices -> size(); i++)
                     {
                         entry.label = QString::fromStdString((vd -> choices -> at(i) ).label);
                         entry.value = QString::fromStdString((vd -> choices -> at(i) ).value);
