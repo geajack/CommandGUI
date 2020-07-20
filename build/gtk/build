@@ -10,6 +10,7 @@ g++ \
     src/main.cpp \
     src/ApplicationGTK.cpp \
     src/core/*.cpp \
+    src/ui/gtk/*.cpp \
     lib/*.c \
     `pkg-config gtkmm-3.0 --cflags --libs` \
     -o bin/CommandGUI

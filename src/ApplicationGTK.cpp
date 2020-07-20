@@ -1,13 +1,12 @@
 #include <gtkmm.h>
 #include "ApplicationGTK.h"
+#include "ui/gtk/MainWindow.h"
 
 int ApplicationGTK::execute()
 {
     auto app = Gtk::Application::create("com.github.geajack.commandgui");
 
-    Gtk::Window window;
-    window.set_default_size(350, 350);
-    window.set_title("Command GUI");
+    MainWindow mainWindow;
 
-    return app->run(window);
+    return app->run(mainWindow);
 }
