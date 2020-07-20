@@ -10,8 +10,8 @@ class VariableDescriptor
     public:
         struct MultipleChoiceItem
         {
-            QString label;
-            QString value;
+            std::string label;
+            std::string value;
         };
         
         std::string* name;

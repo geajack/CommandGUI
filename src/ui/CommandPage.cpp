@@ -128,8 +128,8 @@ void CommandPage::loadCommandDescriptor(CommandDescriptor* command)
                     DropDownListEntry entry;
                     for (int i = 0; i < vd -> choices -> length(); i++)
                     {
-                        entry.label = (vd -> choices -> at(i) ).label;
-                        entry.value = (vd -> choices -> at(i) ).value;
+                        entry.label = QString::fromStdString((vd -> choices -> at(i) ).label);
+                        entry.value = QString::fromStdString((vd -> choices -> at(i) ).value);
                         entryList -> append(entry);
                     }                     
                     formBox -> addDropDownItem(name, label, defaultValue, entryList);

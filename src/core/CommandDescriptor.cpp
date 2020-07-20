@@ -174,8 +174,8 @@ VariableDescriptor* VariableDescriptor::FromJSON(QJsonObject qJsonObj, std::stri
                 return 0;
             }
 
-            item.value = choiceJsonObj.value("value").toString();
-            item.label  = choiceJsonObj.value("label").toString();
+            item.value = choiceJsonObj.value("value").toString().toStdString();
+            item.label  = choiceJsonObj.value("label").toString().toStdString();
             vd -> choices -> append(item);
         }
     }
