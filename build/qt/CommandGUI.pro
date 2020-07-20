@@ -48,3 +48,4 @@ DESTDIR = ../../bin
 OBJECTS_DIR=artifacts
 MOC_DIR=artifacts
 CONFIG+=debug
+CONFIG+=c++17

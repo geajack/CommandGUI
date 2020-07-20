@@ -1,27 +1,31 @@
 #include <string.h>
 #include <fstream>
-#include <QFile>
-#include <QIODevice>
-#include <QDirIterator>
-#include <QStringList>
 #include "CommandDescriptor.h"
 #include "CommandManager.h"
-#include <QMap>
-#include <QFileInfoList>
-#include <QFileInfo>
 #include "cJSON.h"
 
 CommandManager::CommandManager()
 {
     exceptionCode = X_OKAY;
+    fileInfoList = new std::vector<std::filesystem::path>();
 }
 
 void CommandManager::initialize(std::string homeDirectoryPath)
 {
-    QDir dir(QString::fromStdString(homeDirectoryPath));
-    if (dir.exists())
+    using namespace std::filesystem;
+    
+    directory_entry directory = directory_entry(homeDirectoryPath);
+
+    if (directory.exists() && directory.is_directory())
     {
-        fileInfoList = new QFileInfoList(dir.entryInfoList(QStringList() << "*.json", QDir::Files, QDir::Name));
+        for (directory_entry entry : directory_iterator(directory))
+        {
+            path filePath = entry.path();
+            if (filePath.extension().string() == ".json")
+            {
+                fileInfoList->push_back(filePath);
+            }
+        }
     }
     else
     {
@@ -38,7 +42,7 @@ std::vector<CommandHeader>* CommandManager::getHeaders()
     for (int i = 0; i < fileInfoList->size(); i++)
     {
         header.id   = i;
-        header.name = new std::string(fileInfoList->at(i).baseName().toStdString());
+        header.name = new std::string(fileInfoList->at(i).stem().string());
         list->push_back(header);
     }
     return list;
@@ -48,26 +52,13 @@ CommandDescriptor* CommandManager::getCommandDescriptor(int id)
 {
     exceptionCode = X_OKAY;
     
-    QFile file;
     CommandDescriptor* cd = 0;
+    std::ifstream in;
     
     try
-    {        
-        QString filePath = fileInfoList -> at(id).filePath();
-        file.setFileName((filePath));
-        file.open(QIODevice::ReadOnly);    
-        QByteArray fileContents = file.readAll();
-        
-        if (file.error())
-        {
-            exceptionCode = X_FILE_UNREADABLE;
-            errorMessage  = "There was a problem with the file " + (fileInfoList -> at(id).filePath()).toStdString() + ". ";
-            errorMessage  += "Is it corrupted or missing?";
-            throw 0;
-        }
-
+    {
         cJSON *json = NULL;
-        std::ifstream in(filePath.toStdString(), std::ios::in | std::ios::binary);
+        in = std::ifstream(fileInfoList->at(id).string(), std::ios::in | std::ios::binary);
         if (in)
         {
             std::string contents;
@@ -77,6 +68,14 @@ CommandDescriptor* CommandManager::getCommandDescriptor(int id)
             in.read(&contents[0], contents.size());
             in.close();
             json = cJSON_Parse(contents.c_str());
+            in.close();
+        }
+        else
+        {
+            exceptionCode = X_FILE_UNREADABLE;
+            errorMessage  = "There was a problem with the file " + (fileInfoList -> at(id).string()) + ". ";
+            errorMessage  += "Is it corrupted or missing?";
+            throw 0;
         }
         
         if (json == NULL)
@@ -91,15 +90,15 @@ CommandDescriptor* CommandManager::getCommandDescriptor(int id)
         if (cd == 0)
         {
             exceptionCode = X_BAD_JSON_SEMANTICS;
-            errorMessage = "There was a problem with the file " + (fileInfoList -> at(id).filePath()).toStdString() + ".\n\n" + errorMessage;
+            errorMessage = "There was a problem with the file " + (fileInfoList -> at(id).string()) + ".\n\n" + errorMessage;
             throw 0;
         }
     }
     catch (int e)
     {
-        if (file.isOpen())
+        if (in.is_open())
         {
-            file.close();
+            in.close();
         }
         
         return 0;

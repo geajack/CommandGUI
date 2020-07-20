@@ -2,13 +2,13 @@
 
 #include "CommandDescriptor.h"
 #include <stdio.h>
-#include <QFileInfoList>
+#include <filesystem>
 #include "Exceptions.h"
 
 class CommandManager
 {
         std::vector<CommandHeader>* commandHeaders;
-        QFileInfoList* fileInfoList;
+        std::vector<std::filesystem::path> *fileInfoList;
         ExceptionCode exceptionCode;
         std::string errorMessage;
         
