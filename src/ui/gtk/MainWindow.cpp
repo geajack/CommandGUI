@@ -13,6 +13,10 @@ MainWindow::MainWindow()
     Gtk::Box *mainPage = new Gtk::Box;
     mainPage->set_orientation(Gtk::ORIENTATION_VERTICAL);   
 
+    commandPage.signal_clicked_back.connect(
+        sigc::mem_fun(*this, &MainWindow::onClickBack)
+    );
+
     commandManager.initialize("/home/jack/Code/CommandGUI/Codebase/bin/commands");
     
     auto headers = commandManager.getHeaders();
@@ -49,4 +53,9 @@ void MainWindow::onCommandClicked(int commandID)
     commandPage.loadCommandDescriptor(commandDescriptor);
 
     tabs.set_current_page(1);
+}
+
+void MainWindow::onClickBack()
+{
+    tabs.set_current_page(0);
 }
