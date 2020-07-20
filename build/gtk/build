@@ -1,0 +1,16 @@
+export COMMANDGUI_UI_PLATFORM_GTK=1
+
+g++ \
+    -std=c++17 \
+    -g \
+    -DCOMMANDGUI_UI_PLATFORM_GTK=1 \
+    `pkg-config --cflags gtk+-3.0` \
+    -I lib/include \
+    -I src \
+    -Lsrc \
+    src/main.cpp \
+    src/ApplicationGTK.cpp \
+    src/core/*.cpp \
+    lib/*.c \
+    `pkg-config --libs gtk+-3.0` \
+    -o bin/CommandGUI
