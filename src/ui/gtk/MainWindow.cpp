@@ -3,11 +3,6 @@
 #include "../../core/CommandManager.h"
 #include <iostream>
 
-void onClicked(int commandID)
-{
-    std::cout << commandID << "\n";
-}
-
 MainWindow::MainWindow()
 {
     set_default_size(350, 350);
@@ -41,7 +36,7 @@ MainWindow::MainWindow()
         }
         button->signal_clicked().connect(
             sigc::bind<int>(
-                sigc::ptr_fun(&onClicked),
+                sigc::mem_fun(*this, &MainWindow::onCommandClicked),
                 header.id
             )
         );
@@ -49,4 +44,9 @@ MainWindow::MainWindow()
     }
 
     show_all_children();
+}
+
+void MainWindow::onCommandClicked(int commandID)
+{
+    std::cout << commandID << "\n";
 }
