@@ -3,7 +3,7 @@
 #include <string.h>
 #include <vector>
 #include <map>
-#include <QJsonDocument>
+#include "cJSON.h"
 
 class VariableDescriptor
 {
@@ -26,7 +26,7 @@ class VariableDescriptor
         static const int TYPE_FOLDER = 3;
         static const int TYPE_MULTIPLE_CHOICE = 4;
         
-        static VariableDescriptor* FromJSON(QJsonObject qJsonObj, std::string* errorMessage);
+        static VariableDescriptor* FromJSON(cJSON *json, std::string* errorMessage);
 };
 
 class CommandDescriptor
@@ -39,7 +39,7 @@ class CommandDescriptor
         std::vector<VariableDescriptor*>* getVariableList();
         VariableDescriptor* getVariable(std::string name);
         
-        static CommandDescriptor* FromJSON(QJsonObject qJsonObj, std::string* errorMessage);
+        static CommandDescriptor* FromJSON(cJSON *json, std::string* errorMessage);
     private:
         std::map<std::string, VariableDescriptor*>* variableMap;
 };

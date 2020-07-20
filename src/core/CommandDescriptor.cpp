@@ -1,42 +1,53 @@
-#include <QJsonDocument>
-#include <QJsonObject>
-#include <QJsonValue>
-#include <QJsonArray>
 #include "CommandDescriptor.h"
 #include "Exceptions.h"
 
-CommandDescriptor* CommandDescriptor::FromJSON(QJsonObject qJsonObj, std::string* errorString)
+CommandDescriptor* CommandDescriptor::FromJSON(cJSON *json, std::string* errorString)
 {
     CommandDescriptor* cd = new CommandDescriptor();
 
-    if (! qJsonObj.contains("templateString") )
+    if (json->type != cJSON_Object)
+    {
+        *errorString = "The root entity of the file was not a JSON object.";
+        return 0;
+    }
+
+    if (!cJSON_HasObjectItem(json, "templateString"))
     {
         *errorString = "There was no template string.";
         return 0;
     }
 
-    if (! qJsonObj.value("templateString").isString())
+    cJSON *templateStringJSON = cJSON_GetObjectItem(json, "templateString");
+    if (!cJSON_IsString(templateStringJSON))
     {
         *errorString = "The template string value was not a string.";
         return 0;
     }
 
-    if (qJsonObj.contains("variables") && (! qJsonObj.value("variables").isArray()))
+    if (!cJSON_HasObjectItem(json, "variables"))
     {
-        *errorString = "The variables array was not an array.";
+        *errorString = "The variables array was not present.";
         return 0;
     }
 
-    cd -> templateString = qJsonObj.value("templateString").toString().toStdString();
+    cJSON *variablesJSON = cJSON_GetObjectItem(json, "variables");
+    if (!cJSON_IsArray(variablesJSON))
+    {
+        *errorString = "The 'variables' key does not contain an array.";
+        return 0;
+    }
+
+    cd -> templateString = std::string(cJSON_GetStringValue(templateStringJSON));
     cd -> variableMap = new std::map<std::string, VariableDescriptor*>;
     cd -> variableList = new std::vector<VariableDescriptor*>;
-    QJsonArray variables = qJsonObj.value("variables").toArray();
 
     VariableDescriptor* vd;
     std::string variableErrorString;
-    for (int i = 0; i < variables.count(); i++)
+    int nVariables = cJSON_GetArraySize(variablesJSON);
+    for (int i = 0; i < nVariables; i++)
     {
-        vd = VariableDescriptor::FromJSON(variables.at(i).toObject(), &variableErrorString);
+        cJSON *item = cJSON_GetArrayItem(variablesJSON, i);
+        vd = VariableDescriptor::FromJSON(item, &variableErrorString);
 
         if (vd == 0)
         {
@@ -62,47 +73,56 @@ VariableDescriptor* CommandDescriptor::getVariable(std::string name)
     return (*variableMap)[name];
 }
 
-VariableDescriptor* VariableDescriptor::FromJSON(QJsonObject qJsonObj, std::string* errorString)
+VariableDescriptor* VariableDescriptor::FromJSON(cJSON *json, std::string *errorString)
 {
     VariableDescriptor* vd = new VariableDescriptor();
 
-    if (! qJsonObj.contains("type"))
+    if (json->type != cJSON_Object)
+    {
+        *errorString = "The variable is not a JSON object.";
+        return 0;
+    }
+
+    if (!cJSON_HasObjectItem(json, "type"))
     {
         *errorString = "The variable had no \"type\" attribute.";
         return 0;
     }
 
-    if (! qJsonObj.value("type").isString())
+    cJSON *typeJSON = cJSON_GetObjectItem(json, "type");
+    if (!cJSON_IsString(typeJSON))
     {
         *errorString = "The variable's \"type\" attribute was not a string.";
         return 0;
     }
 
-    if (! qJsonObj.contains("name"))
+    if (!cJSON_HasObjectItem(json, "name"))
     {
         *errorString = "The variable had no \"name\" attribute.";
         return 0;
     }
 
-    if (! qJsonObj.value("name").isString())
+    cJSON *nameJSON = cJSON_GetObjectItem(json, "name");
+    if (!cJSON_IsString(nameJSON))
     {
         *errorString = "The variable's \"name\" attribute was not a string.";
         return 0;
     }
 
-    if (! qJsonObj.contains("label"))
+    if (!cJSON_HasObjectItem(json, "label"))
     {
         *errorString = "The variable had no \"label\" attribute.";
         return 0;
     }
 
-    if (! qJsonObj.value("label").isString())
+    cJSON *labelJSON = cJSON_GetObjectItem(json, "label");
+    if (!cJSON_IsString(labelJSON))
     {
         *errorString = "The variable's \"label\" attribute was not a string.";
         return 0;
     }
 
-    QString type = qJsonObj.value("type").toString();
+    std::string type = cJSON_GetStringValue(typeJSON);
 
     if (type == "string")
     {
@@ -126,13 +146,14 @@ VariableDescriptor* VariableDescriptor::FromJSON(QJsonObject qJsonObj, std::stri
     }
     else if (type == "multiple")
     {
-        if (! qJsonObj.contains("choices"))
+        if (!cJSON_HasObjectItem(json, "choices"))
         {
             *errorString = "The variable is a multiple choice type variable, but has no \"choices\" array.";
             return 0;
         }
 
-        if (! qJsonObj.value("choices").isArray())
+        cJSON *choicesJSON = cJSON_GetObjectItem(json, "choices");
+        if (!cJSON_IsArray(choicesJSON))
         {
             *errorString = "The variable is a multiple choice type variable, and the \"choices\" attribute is not an array.";
             return 0;
@@ -141,39 +162,47 @@ VariableDescriptor* VariableDescriptor::FromJSON(QJsonObject qJsonObj, std::stri
         vd -> type = VariableDescriptor::TYPE_MULTIPLE_CHOICE;
         vd -> defaultValue = "";
         vd -> choices = new std::vector<VariableDescriptor::MultipleChoiceItem>;
-        QJsonArray choices = qJsonObj.value("choices").toArray();
-        QJsonObject choiceJsonObj;
+        cJSON *choiceJSON;
+        int nChoices = cJSON_GetArraySize(choicesJSON);
         VariableDescriptor::MultipleChoiceItem item;
-        for (int i = 0; i < choices.count(); i++)
+        for (int i = 0; i < nChoices; i++)
         {
-            choiceJsonObj = choices.at(i).toObject();
+            choiceJSON = cJSON_GetArrayItem(choicesJSON, i);
 
-            if (! choiceJsonObj.contains("value"))
+            if (choiceJSON->type != cJSON_Object)
+            {
+                *errorString = "A member of the \"choices\" array is not an object.";
+                return 0;
+            }
+
+            if (!cJSON_HasObjectItem(choiceJSON, "value"))
             {
                 *errorString = "A member of the \"choices\" array has no \"value\" attribute.";
                 return 0;
             }
 
-            if (! choiceJsonObj.value("value").isString())
+            cJSON *valueJSON = cJSON_GetObjectItem(json, "value");
+            if (!cJSON_IsString(valueJSON))
             {
                 *errorString = "A member of the \"choices\" array has a non-string \"value\" attribute.";
                 return 0;
             }
 
-            if (! choiceJsonObj.contains("label"))
+            if (!cJSON_HasObjectItem(choiceJSON, "label"))
             {
                 *errorString = "A member of the \"choices\" array has no \"label\" attribute.";
                 return 0;
             }
 
-            if (! choiceJsonObj.value("label").isString())
+            cJSON *labelJSON = cJSON_GetObjectItem(json, "label");
+            if (!cJSON_IsString(labelJSON))
             {
                 *errorString = "A member of the \"choices\" array has a non-string \"label\" attribute.";
                 return 0;
             }
 
-            item.value = choiceJsonObj.value("value").toString().toStdString();
-            item.label  = choiceJsonObj.value("label").toString().toStdString();
+            item.value = cJSON_GetStringValue(valueJSON);
+            item.label  = cJSON_GetStringValue(labelJSON);
             vd -> choices -> push_back(item);
         }
     }
@@ -182,40 +211,41 @@ VariableDescriptor* VariableDescriptor::FromJSON(QJsonObject qJsonObj, std::stri
         return 0;
     }
 
-    if (qJsonObj.contains("default"))
+    if (cJSON_HasObjectItem(json, "default"))
     {
+        cJSON *defaultJSON = cJSON_GetObjectItem(json, "default");
         if (type == "boolean")
         {
-            if (! qJsonObj.value("default").isBool())
+            if (!cJSON_IsBool(defaultJSON))
             {
                 *errorString = "The variable is a boolean variable, but has a non-boolean default value. The acceptable values are either \"true\" or \"false\", without quotes.";
                 return 0;
             }
 
-            if (qJsonObj.value("default").toBool())
+            if (cJSON_IsTrue(defaultJSON))
             {
                 vd -> defaultValue = "true";
             }
         }
         else
         {
-            if (! qJsonObj.value("default").isString())
+            if (!cJSON_IsString(defaultJSON))
             {
                 *errorString = "The variable has a non-string default value. Did you forget the quote marks?";
                 return 0;
             }
             else
             {
-                vd -> defaultValue = qJsonObj.value("default").toString().toStdString();
+                vd -> defaultValue = cJSON_GetStringValue(defaultJSON);
             }
         }
     }
 
     vd -> label = new std::string(
-        qJsonObj.value("label").toString().toStdString()
+        cJSON_GetStringValue(labelJSON)
     );
     vd -> name  = new std::string(
-        qJsonObj.value("name").toString().toStdString()
+        cJSON_GetStringValue(nameJSON)
     );
     return vd;
 }

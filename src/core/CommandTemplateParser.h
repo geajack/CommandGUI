@@ -1,6 +1,8 @@
 #pragma once
 
 #include <map>
+#include <QChar>
+#include <QString>
 #include "CommandDescriptor.h"
 #include "Exceptions.h"
 

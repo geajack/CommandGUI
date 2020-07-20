@@ -1,16 +1,14 @@
 #include <string.h>
+#include <fstream>
 #include <QFile>
 #include <QIODevice>
 #include <QDirIterator>
-#include <QJsonDocument>
 #include <QStringList>
-#include <QJsonObject>
 #include "CommandDescriptor.h"
 #include "CommandManager.h"
 #include <QMap>
 #include <QFileInfoList>
 #include <QFileInfo>
-#include <QJsonParseError>
 #include <QCoreApplication>
 #include "cJSON.h"
 
@@ -57,7 +55,8 @@ CommandDescriptor* CommandManager::getCommandDescriptor(int id)
     
     try
     {        
-        file.setFileName((fileInfoList -> at(id).filePath()));
+        QString filePath = fileInfoList -> at(id).filePath();
+        file.setFileName((filePath));
         file.open(QIODevice::ReadOnly);    
         QByteArray fileContents = file.readAll();
         
@@ -68,19 +67,28 @@ CommandDescriptor* CommandManager::getCommandDescriptor(int id)
             errorMessage  += "Is it corrupted or missing?";
             throw 0;
         }
+
+        cJSON *json = NULL;
+        std::ifstream in(filePath.toStdString(), std::ios::in | std::ios::binary);
+        if (in)
+        {
+            std::string contents;
+            in.seekg(0, std::ios::end);
+            contents.resize(in.tellg());
+            in.seekg(0, std::ios::beg);
+            in.read(&contents[0], contents.size());
+            in.close();
+            json = cJSON_Parse(contents.c_str());
+        }
         
-        QJsonParseError jsonParseError;
-        QJsonDocument qJsonDoc = QJsonDocument::fromJson(fileContents, &jsonParseError);
-        
-        if (jsonParseError.error != QJsonParseError::NoError)
+        if (json == NULL)
         {
             exceptionCode = X_BAD_JSON_SYNTAX;
-            setErrorMessage(jsonParseError, fileContents);
-            errorMessage = "There was a problem with the file " + (fileInfoList -> at(id).filePath()).toStdString() + ".\n\n" + errorMessage;
+            errorMessage = "The given file contains invalid JSON. " + std::string(cJSON_GetErrorPtr());
             throw 0;
         }
         
-        cd = CommandDescriptor::FromJSON(qJsonDoc.object(), &errorMessage);
+        cd = CommandDescriptor::FromJSON(json, &errorMessage);
         
         if (cd == 0)
         {
@@ -100,81 +108,6 @@ CommandDescriptor* CommandManager::getCommandDescriptor(int id)
     }
     
     return cd;
-}
-
-void CommandManager::setErrorMessage(QJsonParseError jsonParseError, QByteArray fileContents)
-{
-    int lineNumber = 0;
-    int i = 0;
-    while (i <= jsonParseError.offset)
-    {
-        if (fileContents.at(i) == '\n')
-        {
-            lineNumber++;
-        }
-        i++;
-    }
-    
-    errorMessage = "There was a problem parsing your JSON around line " + std::to_string(lineNumber) + ".\n";
-    
-    switch(jsonParseError.error)
-    {
-        case QJsonParseError::UnterminatedObject:
-            errorMessage += "The parser says it found an object without an ending curly brace.";
-        break;
-        
-        case QJsonParseError::MissingNameSeparator:
-            errorMessage += "The parser says you forgot to put in a comma between array items.";
-        break;
-        
-        case QJsonParseError::UnterminatedArray:
-            errorMessage += "The parser says it found an array without an ending square breacket.";
-        break;
-        
-        case QJsonParseError::MissingValueSeparator:
-            errorMessage += "The parser says you forgot to put a colon between a key and a value.";
-        break;
-        
-        case QJsonParseError::IllegalValue:
-            errorMessage += "The parser says it found an illegal value.";
-        break;
-        
-        case QJsonParseError::TerminationByNumber:
-            errorMessage += "The parser says the file ended with a number.";
-        break;
-        
-        case QJsonParseError::IllegalNumber:
-            errorMessage += "The parser says it found an illegal number.";
-        break;
-        
-        case QJsonParseError::IllegalEscapeSequence:
-            errorMessage += "The parser says it found an illegal escape (backslash) sequence.";
-        break;
-        
-        case QJsonParseError::IllegalUTF8String:
-            errorMessage += "The parser says it found an illegal UTF-8 string.";
-        break;
-        
-        case QJsonParseError::UnterminatedString:
-            errorMessage += "The parser says it found a string without an ending quote.";
-        break;
-        
-        case QJsonParseError::MissingObject:
-            errorMessage += "The parser says there was supposed to be a JSON object at this point.";
-        break;
-        
-        case QJsonParseError::DeepNesting:
-            errorMessage += "The parser says the JSON file was too deeply nested.";
-        break;
-        
-        case QJsonParseError::DocumentTooLarge:
-            errorMessage += "The parser says the JSON document was too big.";
-        break;
-        
-        case QJsonParseError::GarbageAtEnd:
-            errorMessage += "The parser says there was garbage data at the end of the file.";
-        break;     
-    }
 }
 
 ExceptionCode CommandManager::getError()

@@ -6,12 +6,9 @@
 #include <QIODevice>
 #include <QDebug>
 #include <QDirIterator>
-#include <QJsonDocument>
-#include <QJsonObject>
 #include <QFileInfoList>
 #include <QFileInfo>
 #include <QByteArray>
-#include <QJsonParseError>
 #include "Exceptions.h"
 
 class CommandManager
@@ -20,7 +17,6 @@ class CommandManager
         QFileInfoList* fileInfoList;
         ExceptionCode exceptionCode;
         std::string errorMessage;
-        void setErrorMessage(QJsonParseError jsonParseError, QByteArray fileContents);
         
     public:
         CommandManager();
