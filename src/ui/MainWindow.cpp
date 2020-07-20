@@ -4,6 +4,7 @@
 #include <QList>
 #include <QCloseEvent>
 #include <QDebug>
+#include <QCoreApplication>
 #include "MenuPage.h"
 #include "CommandPage.h"
 #include "../core/CommandManager.h"
@@ -15,7 +16,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     resize(350, 350);
     
     commandManager = new CommandManager();
-    commandManager -> initialize();
+    commandManager -> initialize(QCoreApplication::applicationDirPath().append("/commands").toStdString());
     
     if (commandManager -> getError() == X_OKAY)
     {

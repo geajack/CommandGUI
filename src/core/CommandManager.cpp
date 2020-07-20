@@ -9,7 +9,6 @@
 #include <QMap>
 #include <QFileInfoList>
 #include <QFileInfo>
-#include <QCoreApplication>
 #include "cJSON.h"
 
 CommandManager::CommandManager()
@@ -17,10 +16,9 @@ CommandManager::CommandManager()
     exceptionCode = X_OKAY;
 }
 
-void CommandManager::initialize()
+void CommandManager::initialize(std::string homeDirectoryPath)
 {
-    QDir dir(QCoreApplication::applicationDirPath());
-    dir.cd("./commands");
+    QDir dir(QString::fromStdString(homeDirectoryPath));
     if (dir.exists())
     {
         fileInfoList = new QFileInfoList(dir.entryInfoList(QStringList() << "*.json", QDir::Files, QDir::Name));

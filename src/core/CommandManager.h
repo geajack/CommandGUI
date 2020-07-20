@@ -14,7 +14,7 @@ class CommandManager
         
     public:
         CommandManager();
-        void initialize();
+        void initialize(std::string homeDirectoryPath);
         std::vector<CommandHeader>* getHeaders();
         CommandDescriptor* getCommandDescriptor(int id);
         ExceptionCode getError();
