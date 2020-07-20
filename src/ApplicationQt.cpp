@@ -1,7 +1,7 @@
 #include <QApplication>
 
 #include "ApplicationQt.h"
-#include "ui/MainWindow.h"
+#include "ui/qt/MainWindow.h"
 
 int ApplicationQt::execute()
 {

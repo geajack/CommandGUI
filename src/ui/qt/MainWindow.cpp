@@ -7,7 +7,7 @@
 #include <QCoreApplication>
 #include "MenuPage.h"
 #include "CommandPage.h"
-#include "../core/CommandManager.h"
+#include "../../core/CommandManager.h"
 #include "MainWindow.h"
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)

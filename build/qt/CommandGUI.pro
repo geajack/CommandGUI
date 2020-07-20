@@ -19,27 +19,27 @@ DEFINES += COMMANDGUI_UI_PLATFORM_QT
 # Input
 HEADERS += ../../src/core/CommandDescriptor.h \
            ../../src/core/CommandManager.h \
-           ../../src/ui/CommandPage.h \
+           ../../src/ui/qt/CommandPage.h \
            ../../src/core/CommandTemplateParser.h \
            ../../src/core/Exceptions.h \
-           ../../src/ui/FileChooserButton.h \
-           ../../src/ui/FormWidget.h \
-           ../../src/ui/MainWindow.h \
-           ../../src/ui/MenuPage.h \
-           ../../src/ui/TerminalWidget.h \
+           ../../src/ui/qt/FileChooserButton.h \
+           ../../src/ui/qt/FormWidget.h \
+           ../../src/ui/qt/MainWindow.h \
+           ../../src/ui/qt/MenuPage.h \
+           ../../src/ui/qt/TerminalWidget.h \
            ../../src/Application.h \
            ../../src/ApplicationQt.h \
            ../../lib/include/cJSON.h
 SOURCES += ../../src/core/CommandDescriptor.cpp \
            ../../src/core/CommandManager.cpp \
-           ../../src/ui/CommandPage.cpp \
+           ../../src/ui/qt/CommandPage.cpp \
            ../../src/core/CommandTemplateParser.cpp \
-           ../../src/ui/FileChooserButton.cpp \
-           ../../src/ui/FormWidget.cpp \
+           ../../src/ui/qt/FileChooserButton.cpp \
+           ../../src/ui/qt/FormWidget.cpp \
            ../../src/main.cpp \
-           ../../src/ui/MainWindow.cpp \
-           ../../src/ui/MenuPage.cpp \
-           ../../src/ui/TerminalWidget.cpp \
+           ../../src/ui/qt/MainWindow.cpp \
+           ../../src/ui/qt/MenuPage.cpp \
+           ../../src/ui/qt/TerminalWidget.cpp \
            ../../src/ApplicationQt.cpp \
            ../../lib/cJSON.c
 

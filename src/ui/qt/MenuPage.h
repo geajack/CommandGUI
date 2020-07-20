@@ -6,8 +6,8 @@
 #include <QPushButton>
 #include <QSignalMapper>
 #include <QScrollArea>
-#include "../core/CommandDescriptor.h"
-#include "../core/Exceptions.h"
+#include "../../core/CommandDescriptor.h"
+#include "../../core/Exceptions.h"
 
 class MenuPage : public QScrollArea
 {

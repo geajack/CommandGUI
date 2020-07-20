@@ -8,9 +8,9 @@
 #include <QLineEdit>
 #include <QScrollArea>
 #include "FormWidget.h"
-#include "../core/CommandDescriptor.h"
+#include "../../core/CommandDescriptor.h"
 #include "TerminalWidget.h"
-#include "../core/Exceptions.h"
+#include "../../core/Exceptions.h"
 
 class CommandPage : public QWidget
 {   
