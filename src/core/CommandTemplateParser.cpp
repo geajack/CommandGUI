@@ -103,7 +103,7 @@ inline void CommandTemplateParser::textStep(QChar qc)
     {
         if (printVariable)
         {
-            if (commandDescriptor -> getVariableMap() -> value(variableName) -> type == VariableDescriptor::TYPE_BOOLEAN)
+            if (commandDescriptor -> getVariable(variableName) -> type == VariableDescriptor::TYPE_BOOLEAN)
             {
                 exceptionCode = X_BAD_TEMPLATE;
                 throw "The template string references a variable called \"" + variableName + "\" which isn't in the variables list.";
@@ -125,7 +125,7 @@ inline void CommandTemplateParser::textStep(QChar qc)
 
 inline bool CommandTemplateParser::isVariableTrueOrNonEmpty(std::string name)
 {
-    VariableDescriptor* vd = commandDescriptor -> getVariableMap() -> value(name);
+    VariableDescriptor* vd = commandDescriptor -> getVariable(name);
     if (vd -> type == VariableDescriptor::TYPE_BOOLEAN)
     {
         return (variableMap -> at(name)) == "true";
@@ -183,7 +183,7 @@ void CommandTemplateParser::lastStep()
         case TEXT:
             if (! variableName.empty())
             {
-                if (commandDescriptor -> getVariableMap() -> value(variableName) -> type == VariableDescriptor::TYPE_BOOLEAN)
+                if (commandDescriptor -> getVariable(variableName) -> type == VariableDescriptor::TYPE_BOOLEAN)
                 {
                     exceptionCode = X_BAD_TEMPLATE;
                     throw "The template string references a variable called \"" + variableName + "\" which isn't in the variables list.";

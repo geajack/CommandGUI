@@ -38,7 +38,7 @@ class CommandDescriptor
         QMap<std::string, VariableDescriptor*>* variableMap;
         
         std::vector<VariableDescriptor*>* getVariableList();
-        QMap<std::string, VariableDescriptor*>* getVariableMap();
+        VariableDescriptor* getVariable(std::string name);
         
         static CommandDescriptor* FromJSON(QJsonObject qJsonObj, std::string* errorMessage);
 };

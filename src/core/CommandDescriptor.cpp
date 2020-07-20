@@ -58,9 +58,9 @@ std::vector<VariableDescriptor*>* CommandDescriptor::getVariableList()
     return variableList;
 }
 
-QMap<std::string, VariableDescriptor*>* CommandDescriptor::getVariableMap()
+VariableDescriptor* CommandDescriptor::getVariable(std::string name)
 {
-    return variableMap;
+    return variableMap -> value(name);
 }
 
 VariableDescriptor* VariableDescriptor::FromJSON(QJsonObject qJsonObj, std::string* errorString)
