@@ -51,6 +51,7 @@ void MainWindow::onCommandClicked(int commandID)
     std::cout << commandID << "\n";
 
     CommandDescriptor *commandDescriptor = commandManager.getCommandDescriptor(commandID);
+    commandPage.reset();
     commandPage.loadCommandDescriptor(commandDescriptor);
 
     tabs.set_current_page(1);

@@ -5,7 +5,10 @@ class CommandPage : public Gtk::Box
 {
     public:
         CommandPage();
+        void reset();
         void loadCommandDescriptor(CommandDescriptor *descriptor);
         void onClickBack();
         sigc::signal<void> signal_clicked_back;
+    private:
+        Gtk::Box contentArea;
 };
