@@ -2,11 +2,13 @@
 #include "../../core/CommandTemplateParser.h"
 #include <iostream>
 
-CommandPage::CommandPage()
+CommandPage::CommandPage(Gtk::Window *parent)
 {
     Gtk::ScrolledWindow *scrollingArea = new Gtk::ScrolledWindow;
     Gtk::Paned *panedView = new Gtk::Paned;
     Gtk::Button *button = new Gtk::Button;
+
+    this->parent = parent;
 
     panedView->set_orientation(Gtk::ORIENTATION_VERTICAL);
 
@@ -109,6 +111,7 @@ void CommandPage::onChangeValue()
     else
     {
         Gtk::MessageDialog *popup = new Gtk::MessageDialog(
+            *parent,
             parser.getErrorMessage(),
             false,
             Gtk::MESSAGE_ERROR,

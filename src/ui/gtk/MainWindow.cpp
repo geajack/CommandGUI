@@ -1,6 +1,6 @@
 #include "MainWindow.h"
 
-MainWindow::MainWindow()
+MainWindow::MainWindow(): commandPage(this)
 {
     set_default_size(350, 350);
     set_title("Command GUI");
