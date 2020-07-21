@@ -78,6 +78,8 @@ void CommandPage::reset()
     {
         delete child;
     }
+
+    textEntries.clear();
 }
 
 void CommandPage::onClickBack()
