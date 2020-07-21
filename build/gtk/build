@@ -1,5 +1,3 @@
-export COMMANDGUI_UI_PLATFORM_GTK=1
-
 g++ \
     -std=c++17 \
     -g \
