@@ -2,7 +2,7 @@
 #include <iostream>
 
 CommandPage::CommandPage()
-{   
+{
     Gtk::ScrolledWindow *scrollingArea = new Gtk::ScrolledWindow;
     Gtk::Paned *panedView = new Gtk::Paned;
     Gtk::Button *button = new Gtk::Button;
@@ -55,6 +55,12 @@ void CommandPage::loadCommandDescriptor(CommandDescriptor *descriptor)
         inputField->set_hexpand(true);
         contentArea.attach(*label, 0, i, 1, 1);
         contentArea.attach(*inputField, 1, i, 1, 1);
+
+        inputField->signal_changed().connect(
+            sigc::mem_fun(*this, &CommandPage::onChangeValue)
+        );
+
+        textEntries[variable->name] = inputField;
     }
     contentArea.show_all_children();
 }
@@ -70,4 +76,15 @@ void CommandPage::reset()
 void CommandPage::onClickBack()
 {
     signal_clicked_back.emit();
+}
+
+void CommandPage::onChangeValue()
+{
+    for (auto pair : textEntries)
+    {
+        std::string *variableName = pair.first;
+        Gtk::Entry *textField = pair.second;
+        std::cout << *variableName << ": " << textField->get_text() << "\n";
+    }
+    std::cout << "\n";
 }

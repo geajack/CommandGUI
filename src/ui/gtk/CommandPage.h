@@ -8,8 +8,10 @@ class CommandPage : public Gtk::Box
         void reset();
         void loadCommandDescriptor(CommandDescriptor *descriptor);
         void onClickBack();
+        void onChangeValue();
         sigc::signal<void> signal_clicked_back;
     private:
         Gtk::Grid contentArea;
         Gtk::TextView terminal;
+        std::map<std::string*, Gtk::Entry*> textEntries;
 };
