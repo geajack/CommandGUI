@@ -6,7 +6,7 @@ MainWindow::MainWindow()
     set_default_size(350, 350);
     set_title("Command GUI");
 
-    set_border_width(5);
+    set_border_width(10);
 
     tabs.set_show_tabs(false);
     tabs.set_show_border(false);

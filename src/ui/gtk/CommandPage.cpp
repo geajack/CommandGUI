@@ -10,6 +10,8 @@ CommandPage::CommandPage()
     contentArea.set_orientation(Gtk::ORIENTATION_VERTICAL);
     contentArea.set_vexpand(false);
     contentArea.set_hexpand(false);
+    contentArea.set_row_spacing(5);
+    contentArea.set_column_spacing(15);
 
     button->set_label("Back");
     button->set_vexpand(false);
@@ -31,10 +33,14 @@ void CommandPage::loadCommandDescriptor(CommandDescriptor *descriptor)
 
     for (int i = 0; i < nVariables; i++)
     {
-        Gtk::Label *label = new Gtk::Label(name);
-        label->set_vexpand(false);
-        label->set_hexpand(true);
-        contentArea.pack_start(*label, Gtk::PACK_SHRINK);
+        VariableDescriptor *variable = descriptor->variableList->at(i);
+        Gtk::Label *label = new Gtk::Label(*(variable->label));
+        Gtk::Entry *inputField = new Gtk::Entry;
+
+        label->set_hexpand(false);
+        inputField->set_hexpand(true);
+        contentArea.attach(*label, 0, i, 1, 1);
+        contentArea.attach(*inputField, 1, i, 1, 1);
     }
     contentArea.show_all_children();
 }

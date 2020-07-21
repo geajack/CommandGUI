@@ -10,5 +10,5 @@ class CommandPage : public Gtk::Box
         void onClickBack();
         sigc::signal<void> signal_clicked_back;
     private:
-        Gtk::Box contentArea;
+        Gtk::Grid contentArea;
 };
