@@ -11,19 +11,16 @@ CommandPage::CommandPage()
     scrollingArea->set_vexpand(true);
 
     contentArea.set_orientation(Gtk::ORIENTATION_VERTICAL);
-    contentArea.set_vexpand(false);
-    contentArea.set_hexpand(false);
     contentArea.set_row_spacing(5);
     contentArea.set_column_spacing(15);
 
     button->set_label("Back");
-    button->set_vexpand(false);
     button->signal_clicked().connect(
         sigc::mem_fun(*this, &CommandPage::onClickBack)
     );
 
-    terminal.set_vexpand(false);
-    terminal.set_size_request(-1, 50);
+    terminal.set_size_request(-1, 80);
+    terminal.set_margin_bottom(10);
 
     set_orientation(Gtk::ORIENTATION_VERTICAL);
 
