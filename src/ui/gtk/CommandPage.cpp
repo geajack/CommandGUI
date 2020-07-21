@@ -1,4 +1,5 @@
 #include "CommandPage.h"
+#include "../../core/CommandTemplateParser.h"
 #include <iostream>
 
 CommandPage::CommandPage()
@@ -24,6 +25,7 @@ CommandPage::CommandPage()
     terminal.set_margin_bottom(10);
     terminal.set_editable(false);
     terminal.get_buffer()->set_text("Hello, world!");
+    terminal.set_wrap_mode(Gtk::WRAP_WORD);
 
     terminal.get_style_context()->add_class("terminal");
     auto styleProvider = Gtk::CssProvider::create();
@@ -45,6 +47,8 @@ void CommandPage::loadCommandDescriptor(CommandDescriptor *descriptor)
     auto name = descriptor->name;
     auto nVariables = descriptor->variableList->size();
 
+    commandDescriptor = *descriptor;
+
     for (int i = 0; i < nVariables; i++)
     {
         VariableDescriptor *variable = descriptor->variableList->at(i);
@@ -62,6 +66,9 @@ void CommandPage::loadCommandDescriptor(CommandDescriptor *descriptor)
 
         textEntries[variable->name] = inputField;
     }
+
+    onChangeValue();
+
     contentArea.show_all_children();
 }
 
@@ -80,11 +87,21 @@ void CommandPage::onClickBack()
 
 void CommandPage::onChangeValue()
 {
+    CommandTemplateParser parser(&commandDescriptor);
     for (auto pair : textEntries)
     {
         std::string *variableName = pair.first;
         Gtk::Entry *textField = pair.second;
-        std::cout << *variableName << ": " << textField->get_text() << "\n";
+        std::string value = textField->get_text();
+
+        parser.addVariable(variableName, &value);
     }
-    std::cout << "\n";
+
+    parser.parse();
+
+    if (parser.getError() == X_OKAY)
+    {
+        std::string shellCommand = parser.getResult();
+        terminal.get_buffer()->set_text(shellCommand);
+    }
 }

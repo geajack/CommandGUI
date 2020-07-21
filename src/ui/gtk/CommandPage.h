@@ -11,6 +11,7 @@ class CommandPage : public Gtk::Box
         void onChangeValue();
         sigc::signal<void> signal_clicked_back;
     private:
+        CommandDescriptor commandDescriptor;
         Gtk::Grid contentArea;
         Gtk::TextView terminal;
         std::map<std::string*, Gtk::Entry*> textEntries;
