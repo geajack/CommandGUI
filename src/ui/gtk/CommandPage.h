@@ -11,4 +11,5 @@ class CommandPage : public Gtk::Box
         sigc::signal<void> signal_clicked_back;
     private:
         Gtk::Grid contentArea;
+        Gtk::TextView terminal;
 };

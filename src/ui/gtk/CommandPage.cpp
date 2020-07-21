@@ -3,7 +3,10 @@
 CommandPage::CommandPage()
 {   
     Gtk::ScrolledWindow *scrollingArea = new Gtk::ScrolledWindow;
+    Gtk::Paned *panedView = new Gtk::Paned;
     Gtk::Button *button = new Gtk::Button;
+
+    panedView->set_orientation(Gtk::ORIENTATION_VERTICAL);
 
     scrollingArea->set_vexpand(true);
 
@@ -22,7 +25,9 @@ CommandPage::CommandPage()
     set_orientation(Gtk::ORIENTATION_VERTICAL);
 
     scrollingArea->add(contentArea);
-    add(*scrollingArea);
+    panedView->add1(*scrollingArea);
+    panedView->add2(terminal);
+    add(*panedView);
     add(*button);
 }
 
