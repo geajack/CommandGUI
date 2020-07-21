@@ -1,4 +1,5 @@
 #include "CommandPage.h"
+#include <iostream>
 
 CommandPage::CommandPage()
 {   
@@ -21,6 +22,12 @@ CommandPage::CommandPage()
 
     terminal.set_size_request(-1, 80);
     terminal.set_margin_bottom(10);
+
+    terminal.get_style_context()->add_class("terminal");
+    auto styleProvider = Gtk::CssProvider::create();
+    auto cssFile = Gio::File::create_for_path("/home/jack/Code/CommandGUI/Codebase/resources/gtk/style.css");
+    styleProvider->load_from_file(cssFile);
+    terminal.get_style_context()->add_provider(styleProvider, GTK_STYLE_PROVIDER_PRIORITY_USER);
 
     set_orientation(Gtk::ORIENTATION_VERTICAL);
 

@@ -50,7 +50,6 @@ void MainWindow::onCommandClicked(int commandID)
     CommandDescriptor *commandDescriptor = commandManager.getCommandDescriptor(commandID);
     commandPage.reset();
     commandPage.loadCommandDescriptor(commandDescriptor);
-
     tabs.set_current_page(1);
 }
 
