@@ -21,11 +21,11 @@ inline void CommandTemplateParser::step(char qc)
         case TEXT:
             textStep(qc);
         break;
-        
+
         case VARIABLE_NAME:
             variableNameStep(qc);
         break;
-        
+
         case ESCAPED:
             escapedStep(qc);
         break;
@@ -35,22 +35,22 @@ inline void CommandTemplateParser::step(char qc)
 inline void CommandTemplateParser::textStep(char qc)
 {
     char c = qc;
-    
+
     bool printVariable  = false; // If we just finished parsing a variable name, print it.
     bool printCharacter = false;
-    
+
     switch (c)
     {
         case '$':
             mode = ESCAPED;
             printVariable = true;
         break;
-        
+
         case '%':
             mode = VARIABLE_NAME;
             printVariable = true;
         break;
-        
+
         case '[':
             if (variableName.length() > 0)
             {
@@ -74,7 +74,7 @@ inline void CommandTemplateParser::textStep(char qc)
                 throw "You started a conditional (square bracket) block without putting a variable in front of it.";
             }
         break;
-        
+
         case ']':
             depth--;
             if (depth < 0)
@@ -91,14 +91,14 @@ inline void CommandTemplateParser::textStep(char qc)
                 printVariable = true;
             }
         break;
-            
+
         default:
             printCharacter = true;
             printVariable = true;
         break;
     }
-    
-    
+
+
     if (! variableName.empty())
     {
         if (printVariable)
@@ -115,8 +115,8 @@ inline void CommandTemplateParser::textStep(char qc)
         }
         variableName = "";
     }
-    
-    
+
+
     if (printCharacter)
     {
         print({c});
@@ -139,7 +139,7 @@ inline bool CommandTemplateParser::isVariableTrueOrNonEmpty(std::string name)
 inline void CommandTemplateParser::variableNameStep(char qc)
 {
     char c = qc;
-    
+
     if (c == '%')
     {
         mode = TEXT;
@@ -158,7 +158,7 @@ inline void CommandTemplateParser::variableNameStep(char qc)
 inline void CommandTemplateParser::escapedStep(char qc)
 {
     char c = qc;
-    
+
     switch (c)
     {
         case '$':
@@ -168,7 +168,7 @@ inline void CommandTemplateParser::escapedStep(char qc)
             mode = TEXT;
             print({c});
         break;
-            
+
         default:
             exceptionCode = X_BAD_TEMPLATE;
             throw "The dollar sign ($) is to be used as an escape character in template strings. It should only be used to escape the characters %, [, ] or itself.";
@@ -195,12 +195,12 @@ void CommandTemplateParser::lastStep()
                 variableName = "";
             }
         break;
-        
+
         case VARIABLE_NAME:
             exceptionCode = X_BAD_TEMPLATE;
             throw "The template string ends in the middle of a variable name.";
         break;
-        
+
         case ESCAPED:
             exceptionCode = X_BAD_TEMPLATE;
             throw "The dollars sign is to be used as an escape character in template strings. I found one at the end of the string. To insert an actual dollar sign as text, use a double dollar sign $$.";
@@ -217,15 +217,15 @@ void CommandTemplateParser::print(std::string s)
 }
 
 void CommandTemplateParser::parse()
-{    
-    exceptionCode = X_OKAY;    
-    
+{
+    exceptionCode = X_OKAY;
+
     mode = TEXT;
     depth = 0;
     depthSinceHidden = 0;
     output = "";
     variableName = "";
-    
+
     int n = input.length();
     try
     {
@@ -233,7 +233,7 @@ void CommandTemplateParser::parse()
         {
             step(input.at(i));
         }
-        
+
         lastStep();
     }
     catch (std::string msg)
