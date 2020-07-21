@@ -1,5 +1,4 @@
 #include "MainWindow.h"
-#include <iostream>
 
 MainWindow::MainWindow()
 {
@@ -48,8 +47,6 @@ MainWindow::MainWindow()
 
 void MainWindow::onCommandClicked(int commandID)
 {
-    std::cout << commandID << "\n";
-
     CommandDescriptor *commandDescriptor = commandManager.getCommandDescriptor(commandID);
     commandPage.reset();
     commandPage.loadCommandDescriptor(commandDescriptor);

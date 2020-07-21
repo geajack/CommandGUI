@@ -22,11 +22,14 @@ CommandPage::CommandPage()
         sigc::mem_fun(*this, &CommandPage::onClickBack)
     );
 
+    terminal.set_vexpand(false);
+    terminal.set_size_request(-1, 50);
+
     set_orientation(Gtk::ORIENTATION_VERTICAL);
 
     scrollingArea->add(contentArea);
-    panedView->add1(*scrollingArea);
-    panedView->add2(terminal);
+    panedView->pack1(*scrollingArea, true, false);
+    panedView->pack2(terminal, false, false);
     add(*panedView);
     add(*button);
 }
