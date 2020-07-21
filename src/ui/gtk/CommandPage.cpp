@@ -22,6 +22,8 @@ CommandPage::CommandPage()
 
     terminal.set_size_request(-1, 80);
     terminal.set_margin_bottom(10);
+    terminal.set_editable(false);
+    terminal.get_buffer()->set_text("Hello, world!");
 
     terminal.get_style_context()->add_class("terminal");
     auto styleProvider = Gtk::CssProvider::create();

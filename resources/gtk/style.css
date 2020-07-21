@@ -2,4 +2,12 @@
 {
     background: black;
     color: white;
+    font-family: monospace;
+    padding: 5px;
+}
+
+selection
+{
+    background: white;
+    color: black;
 }
