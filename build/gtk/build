@@ -1,14 +1,2 @@
-g++ \
-    -std=c++17 \
-    -g \
-    -DCOMMANDGUI_UI_PLATFORM_GTK=1 \
-    -I lib/include \
-    -I src \
-    -Lsrc \
-    src/main.cpp \
-    src/ApplicationGTK.cpp \
-    src/core/*.cpp \
-    src/ui/gtk/*.cpp \
-    lib/*.c \
-    `pkg-config gtkmm-3.0 --cflags --libs` \
-    -o bin/CommandGUI
+cd build/gtk
+make

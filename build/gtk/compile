@@ -1,14 +1,9 @@
-cd build/gtk/artifacts
-
+cd artifacts
 g++ \
     -std=c++17 \
     -g \
     -c \
     -DCOMMANDGUI_UI_PLATFORM_GTK=1 \
     -I ../../../lib/include \
-    ../../../src/main.cpp \
-    ../../../src/ApplicationGTK.cpp \
-    ../../../src/core/*.cpp \
-    ../../../src/ui/gtk/*.cpp \
-    ../../../lib/*.c \
+    ../"$1" \
     `pkg-config gtkmm-3.0 --cflags --libs`

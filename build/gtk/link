@@ -1,0 +1,1 @@
+g++ -g -o ../../bin/CommandGUI artifacts/*.o `pkg-config gtkmm-3.0 --libs`
