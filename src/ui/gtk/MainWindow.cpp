@@ -48,9 +48,26 @@ MainWindow::MainWindow(): commandPage(this)
 void MainWindow::onCommandClicked(int commandID)
 {
     CommandDescriptor *commandDescriptor = commandManager.getCommandDescriptor(commandID);
-    commandPage.reset();
-    commandPage.loadCommandDescriptor(commandDescriptor);
-    tabs.set_current_page(1);
+    if (commandDescriptor != NULL)
+    {
+        commandPage.reset();
+        commandPage.loadCommandDescriptor(commandDescriptor);
+        tabs.set_current_page(1);
+    }
+    else
+    {
+        Gtk::MessageDialog *popup = new Gtk::MessageDialog(
+            *this,
+            commandManager.getErrorMessage(),
+            false,
+            Gtk::MESSAGE_ERROR,
+            Gtk::BUTTONS_OK,
+            true
+        );
+        popup->set_title("Uh oh!");
+        popup->run();
+        delete popup;
+    }
 }
 
 void MainWindow::onClickBack()
