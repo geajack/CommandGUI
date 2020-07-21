@@ -63,5 +63,7 @@ In order to get this graphical wrapper for `wget`, all I had to do was feed Comm
 ```
 
 ## Building
-
-To build for Qt, enter the `build` directory and run `qmake` followed by `make`.
+### Qt
+To build for Qt, enter the `build/qt` directory and run `qmake` followed by `make`. The Qt frontend is in the process of being abandoned and may not be fully tested.
+### GTK
+To build for GTK, enter the `build/gtk` directory and run `make`.
