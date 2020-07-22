@@ -1,0 +1,45 @@
+{
+    "name": "echo",
+    "templateString": "string: %my_string%\nboolean: %my_boolean%[true]\nfile: %my_file%\nfolder: %my_folder%\nmultiple: %my_multiple%",
+    "variables": [
+        {
+            "name": "my_string",
+            "label": "String",
+            "type": "string"
+        },
+        {
+            "name": "my_boolean",
+            "label": "Boolean",
+            "type": "boolean"
+        },
+        {
+            "name": "my_folder",
+            "label": "Folder",
+            "type": "folder"
+        },
+        {
+            "name": "my_file",
+            "label": "File",
+            "type": "file"
+        },
+        {
+            "name": "my_multiple",
+            "label": "Multiple choice",
+            "type": "multiple",
+            "choices": [
+                {
+                    "label": "Gold",
+                    "value": "gold"
+                },
+                {
+                    "label": "Silver",
+                    "value": "silver"
+                },
+                {
+                    "label": "Bronze",
+                    "value": "bronze"
+                }
+            ]
+        }
+    ]
+}
