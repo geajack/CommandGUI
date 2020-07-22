@@ -17,6 +17,7 @@ CommandPage::CommandPage(Gtk::Window *parent)
     contentArea.set_orientation(Gtk::ORIENTATION_VERTICAL);
     contentArea.set_row_spacing(5);
     contentArea.set_column_spacing(15);
+    contentArea.set_margin_bottom(10);
 
     button->set_label("Back");
     button->signal_clicked().connect(
