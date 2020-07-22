@@ -67,3 +67,29 @@ Gtk::Widget *BooleanVariableEntryWidgetGTK::getWidget()
 {
     return &checkbox;
 }
+
+/**************************************************************
+ *
+ * FolderVariableEntryWidgetGTK
+ *
+ * ************************************************************/
+
+FolderVariableEntryWidgetGTK::FolderVariableEntryWidgetGTK(std::string initialValue)
+{
+    button.set_current_folder(initialValue);
+    button.set_action(Gtk::FILE_CHOOSER_ACTION_SELECT_FOLDER);
+
+    button.signal_file_set().connect(
+        sigc::mem_fun(*this, &VariableEntryWidgetGTK::onInternalDataChange)
+    );
+}
+
+std::string FolderVariableEntryWidgetGTK::getStringValue()
+{
+    return button.get_filename();
+}
+
+Gtk::Widget *FolderVariableEntryWidgetGTK::getWidget()
+{
+    return &button;
+}

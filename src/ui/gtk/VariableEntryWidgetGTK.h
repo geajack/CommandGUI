@@ -28,6 +28,14 @@ class BooleanVariableEntryWidgetGTK : public VariableEntryWidgetGTK
         Gtk::Widget* getWidget();
 };
 
+class FolderVariableEntryWidgetGTK : public VariableEntryWidgetGTK
+{
+        Gtk::FileChooserButton button;
+    public:
+        FolderVariableEntryWidgetGTK(std::string initialValue);
+        std::string getStringValue();
+        Gtk::Widget* getWidget();
+};
+
 typedef StringVariableEntryWidgetGTK MultipleChoiceVariableEntryWidgetGTK;
 typedef StringVariableEntryWidgetGTK FileVariableEntryWidgetGTK;
-typedef StringVariableEntryWidgetGTK FolderVariableEntryWidgetGTK;
