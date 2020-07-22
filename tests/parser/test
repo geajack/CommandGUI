@@ -1,0 +1,36 @@
+test_output()
+{
+    file=$1
+    expected=$2
+
+    RED='\033[0;31m'
+    GREEN='\033[0;32m'
+
+    output=$(bin/tests/parser/test parse $file)
+
+    echo "Got:      $output"
+    echo "Expected: $expected"
+
+    cmp -s <(echo "$output") <(echo "$expected")
+    are_different=$?
+
+    if [[ $are_different == 1 ]]
+    then
+        echo -e "${RED}failed!"
+    else
+        echo -e "${GREEN}passed!"
+    fi
+}
+
+test_validity()
+{
+    file=$1
+    expected=$2
+
+    RED='\033[0;31m'
+    GREEN='\033[0;32m'
+
+    output=$(bin/tests/parser/test validate $file)
+
+    echo "Output: $output"
+}

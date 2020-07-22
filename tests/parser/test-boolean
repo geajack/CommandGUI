@@ -1,0 +1,5 @@
+source ./tests/parser/test
+
+export my_boolean=true
+
+test_validity "tests/parser/cases/boolean.json"

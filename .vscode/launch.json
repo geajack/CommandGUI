@@ -9,10 +9,15 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/bin/tests/parser/test",
-            "args": ["tests/parser/cases/invalid.json"],
+            "args": ["validate", "tests/parser/cases/boolean.json"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
-            "environment": [],
+            "environment": [ 
+                {
+                    "name": "my_boolean",
+                    "value": "true"
+                }
+            ],
             "externalConsole": false,
             "MIMode": "gdb",
             "setupCommands": [

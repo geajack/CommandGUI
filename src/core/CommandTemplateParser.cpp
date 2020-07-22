@@ -1,3 +1,4 @@
+#include <cctype>
 #include "CommandDescriptor.h"
 #include "CommandTemplateParser.h"
 #include "Exceptions.h"
@@ -144,14 +145,14 @@ inline void CommandTemplateParser::variableNameStep(char qc)
     {
         mode = TEXT;
     }
-    else if ('A' <= c <= 'Z' || 'a' <= c <= 'z' || '0' <= c <= '9')
+    else if (isalnum(c) || c == '_')
     {
         variableName += c;
     }
     else
     {
         exceptionCode = X_BAD_TEMPLATE;
-        errorMessage = "Variable names can only contain letters and numbers. I found a variable name containing a \"" + std::string({qc}) + "\".";
+        errorMessage = "Variable names can only contain letters, numbers, and underscores. I found a variable name containing a \"" + std::string({qc}) + "\".";
     }
 }
 
@@ -186,7 +187,7 @@ void CommandTemplateParser::lastStep()
                 if (commandDescriptor -> getVariable(variableName) -> type == VariableDescriptor::TYPE_BOOLEAN)
                 {
                     exceptionCode = X_BAD_TEMPLATE;
-                    errorMessage = "The template string references a variable called \"" + variableName + "\" which isn't in the variables list.";
+                    errorMessage = "Boolean variables are only for use as conditionals and can't be printed directly. This template string attempts to print the boolean variable \"" + variableName + "\".";
                 }
                 else
                 {

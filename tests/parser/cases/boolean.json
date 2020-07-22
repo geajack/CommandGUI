@@ -1,0 +1,11 @@
+{
+    "name": "boolean",
+    "templateString": "%my_boolean%",
+    "variables": [
+        {
+            "name": "my_boolean",
+            "label": "Message",
+            "type": "boolean"
+        }
+    ]
+}
