@@ -103,25 +103,6 @@ void CommandPage::onChangeValue()
 
     parser.parse();
 
-    if (parser.getError() == X_OKAY)
-    {
-        std::string shellCommand = parser.getResult();
-        terminal.get_buffer()->set_text(shellCommand);
-    }
-    else
-    {
-        Gtk::MessageDialog *popup = new Gtk::MessageDialog(
-            *parent,
-            parser.getErrorMessage(),
-            false,
-            Gtk::MESSAGE_ERROR,
-            Gtk::BUTTONS_OK,
-            true
-        );
-        popup->set_title("Uh oh!");
-        popup->run();
-        delete popup;
-        signal_clicked_back.emit();
-    }
-
+    std::string shellCommand = parser.getResult();
+    terminal.get_buffer()->set_text(shellCommand);
 }

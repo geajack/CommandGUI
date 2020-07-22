@@ -1,5 +1,6 @@
 #include <string.h>
 #include <fstream>
+#include "CommandTemplateParser.h"
 #include "CommandDescriptor.h"
 #include "CommandManager.h"
 #include "cJSON.h"
@@ -103,8 +104,20 @@ CommandDescriptor* CommandManager::getCommandDescriptor(int id)
         
         return 0;
     }
+
+    CommandTemplateParser parser = CommandTemplateParser(cd);
+    ExceptionCode status = parser.validate();
     
-    return cd;
+    if (status == X_OKAY)
+    {
+        return cd;
+    }
+    else
+    {
+        exceptionCode = parser.getError();
+        errorMessage = parser.getErrorMessage();
+        return NULL;
+    }
 }
 
 ExceptionCode CommandManager::getError()

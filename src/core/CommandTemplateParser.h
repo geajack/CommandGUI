@@ -34,6 +34,7 @@ class CommandTemplateParser
     public:
         CommandTemplateParser(CommandDescriptor* commandDescriptor);
         void parse();
+        ExceptionCode validate();
         void addVariable(const std::string *name, const std::string *value);
         ExceptionCode getError();
         std::string getErrorMessage();

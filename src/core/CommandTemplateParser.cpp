@@ -14,6 +14,19 @@ void CommandTemplateParser::addVariable(const std::string *name, const std::stri
     (*variableMap)[*name] = *value;
 }
 
+inline bool CommandTemplateParser::isVariableTrueOrNonEmpty(std::string name)
+{
+    VariableDescriptor* vd = commandDescriptor -> getVariable(name);
+    if (vd -> type == VariableDescriptor::TYPE_BOOLEAN)
+    {
+        return (variableMap -> at(name)) == "true";
+    }
+    else
+    {
+        return ! (variableMap -> at(name)).empty();
+    }
+}
+
 inline void CommandTemplateParser::step(char qc)
 {
     switch (mode)
@@ -123,19 +136,6 @@ inline void CommandTemplateParser::textStep(char qc)
     }
 }
 
-inline bool CommandTemplateParser::isVariableTrueOrNonEmpty(std::string name)
-{
-    VariableDescriptor* vd = commandDescriptor -> getVariable(name);
-    if (vd -> type == VariableDescriptor::TYPE_BOOLEAN)
-    {
-        return (variableMap -> at(name)) == "true";
-    }
-    else
-    {
-        return ! (variableMap -> at(name)).empty();
-    }
-}
-
 inline void CommandTemplateParser::variableNameStep(char qc)
 {
     char c = qc;
@@ -238,6 +238,21 @@ void CommandTemplateParser::parse()
     }
 
     lastStep();
+}
+
+ExceptionCode CommandTemplateParser::validate()
+{
+    auto dummyValue = new std::string("true");
+    for (auto variable : *commandDescriptor->getVariableList())
+    {
+        addVariable(variable->name, dummyValue);
+    }
+
+    parse();
+
+    delete dummyValue;
+
+    return exceptionCode;
 }
 
 ExceptionCode CommandTemplateParser::getError()
