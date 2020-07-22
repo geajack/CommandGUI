@@ -5,6 +5,7 @@
 #include <map>
 #include "cJSON.h"
 #include "Exceptions.h"
+#include "../ui/VariableEntryWidget.h"
 
 class VariableDescriptor
 {
@@ -28,6 +29,8 @@ class VariableDescriptor
         static const int TYPE_MULTIPLE_CHOICE = 4;
         
         static VariableDescriptor* FromJSON(cJSON *json, std::string* errorMessage);
+
+        VariableEntryWidget* buildEntryWidget();
 };
 
 class CommandDescriptor

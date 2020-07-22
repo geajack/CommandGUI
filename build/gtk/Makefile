@@ -1,5 +1,5 @@
 TARGET = ../../bin/CommandGUI
-OBJECTS = artifacts/ApplicationGTK.o artifacts/cJSON.o artifacts/CommandDescriptor.o artifacts/CommandManager.o artifacts/CommandPage.o artifacts/CommandTemplateParser.o artifacts/main.o artifacts/MainWindow.o
+OBJECTS = artifacts/ApplicationGTK.o artifacts/cJSON.o artifacts/CommandDescriptor.o artifacts/CommandManager.o artifacts/CommandPage.o artifacts/CommandTemplateParser.o artifacts/main.o artifacts/MainWindow.o artifacts/VariableEntryWidgetGTK.o
 
 VPATH = ../../lib ../../src ../../src/core ../../src/ui/gtk
 

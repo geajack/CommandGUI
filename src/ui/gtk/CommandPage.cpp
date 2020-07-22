@@ -56,16 +56,14 @@ void CommandPage::loadCommandDescriptor(CommandDescriptor *descriptor)
     {
         VariableDescriptor *variable = descriptor->variableList->at(i);
         Gtk::Label *label = new Gtk::Label(*(variable->label));
-        Gtk::Entry *inputField = new Gtk::Entry;
+        VariableEntryWidgetGTK *inputField = variable->buildEntryWidget();
 
         label->set_hexpand(false);
-        inputField->set_hexpand(true);
+        inputField->getWidget()->set_hexpand(true);
         contentArea.attach(*label, 0, i, 1, 1);
-        contentArea.attach(*inputField, 1, i, 1, 1);
+        contentArea.attach(*inputField->getWidget(), 1, i, 1, 1);
 
-        inputField->get_buffer()->set_text(variable->defaultValue);
-
-        inputField->signal_changed().connect(
+        inputField->onChangeSignal.connect(
             sigc::mem_fun(*this, &CommandPage::onChangeValue)
         );
 
@@ -98,8 +96,8 @@ void CommandPage::onChangeValue()
     for (auto pair : textEntries)
     {
         std::string *variableName = pair.first;
-        Gtk::Entry *textField = pair.second;
-        std::string value = textField->get_text();
+        VariableEntryWidgetGTK *entryWidget = pair.second;
+        std::string value = entryWidget->getStringValue();
 
         parser.addVariable(variableName, &value);
     }

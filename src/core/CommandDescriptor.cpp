@@ -130,6 +130,42 @@ VariableDescriptor* CommandDescriptor::getVariable(std::string name)
     return (*variableMap)[name];
 }
 
+VariableEntryWidget* VariableDescriptor::buildEntryWidget()
+{
+    bool initialValue;
+    switch (type)
+    {
+        case TYPE_BOOLEAN:
+            initialValue = false;
+            if (defaultValue == "true")
+            {
+                initialValue = true;
+            }
+            return new BooleanVariableEntryWidget(initialValue);
+        break;
+
+        case TYPE_STRING:
+            return new StringVariableEntryWidget(defaultValue);
+        break;
+
+        case TYPE_MULTIPLE_CHOICE:
+            return new MultipleChoiceVariableEntryWidget(defaultValue);
+        break;
+
+        case TYPE_FILE:
+            return new FileVariableEntryWidget(defaultValue);
+        break;
+
+        case TYPE_FOLDER:
+            return new FolderVariableEntryWidget(defaultValue);
+        break;
+
+        default:
+            return NULL;
+        break;
+    }
+}
+
 VariableDescriptor* VariableDescriptor::FromJSON(cJSON *json, std::string *errorString)
 {
     VariableDescriptor* vd = new VariableDescriptor();

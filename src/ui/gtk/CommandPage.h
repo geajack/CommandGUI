@@ -15,5 +15,5 @@ class CommandPage : public Gtk::Box
         CommandDescriptor commandDescriptor;
         Gtk::Grid contentArea;
         Gtk::TextView terminal;
-        std::map<std::string*, Gtk::Entry*> textEntries;
+        std::map<std::string*, VariableEntryWidgetGTK*> textEntries;
 };

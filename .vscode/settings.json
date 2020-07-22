@@ -98,5 +98,8 @@
         "iostream": "cpp",
         "filesystem": "cpp"
     },
-    "C_Cpp.default.cppStandard": "c++17"
+    "C_Cpp.default.cppStandard": "c++17",
+    "C_Cpp.default.defines": [
+        "COMMANDGUI_UI_PLATFORM_GTK"
+    ]
 }
