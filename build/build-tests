@@ -1,0 +1,1 @@
+g++ -std=c++17 -obin/tests/parser/test -Isrc/core -Ilib/include -g tests/parser/main.cpp src/core/*.cpp lib/cJSON.c

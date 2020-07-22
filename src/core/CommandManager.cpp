@@ -1,4 +1,5 @@
 #include <string.h>
+#include <fstream>
 #include "CommandTemplateParser.h"
 #include "CommandDescriptor.h"
 #include "CommandManager.h"
