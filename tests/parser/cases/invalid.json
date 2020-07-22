@@ -1,0 +1,11 @@
+{
+    "name": "echo",
+    "templateString": "echo \"%message%\"",
+    "variables": [
+        {
+            "name": "message",
+            "label": "Message",
+            "type": "boolean"
+        }
+    ]
+}

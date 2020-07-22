@@ -1,5 +1,6 @@
 #include <fstream>
 #include "CommandDescriptor.h"
+#include "CommandTemplateParser.h"
 
 CommandDescriptor* CommandDescriptor::FromJSON(std::string *filePath, ExceptionCode *exceptionCode, std::string *errorMessage)
 {
@@ -102,7 +103,21 @@ CommandDescriptor* CommandDescriptor::FromJSON(std::string *filePath, ExceptionC
         cd -> variableList -> push_back(vd);
     }
 
-    return cd;
+    CommandTemplateParser parser = CommandTemplateParser(cd);
+    ExceptionCode status = parser.validate();
+    
+    if (status == X_OKAY)
+    {
+        *exceptionCode = X_OKAY;
+        *errorMessage = "";
+        return cd;
+    }
+    else
+    {
+        *exceptionCode = parser.getError();
+        *errorMessage = parser.getErrorMessage();
+        return NULL;
+    }
 }
 
 std::vector<VariableDescriptor*>* CommandDescriptor::getVariableList()

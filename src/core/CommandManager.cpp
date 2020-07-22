@@ -60,19 +60,9 @@ CommandDescriptor* CommandManager::getCommandDescriptor(int id)
         errorMessage = "There was a problem with the file " + (fileInfoList -> at(id).string()) + ".\n\n" + errorMessage;
         return 0;
     }
-
-    CommandTemplateParser parser = CommandTemplateParser(cd);
-    ExceptionCode status = parser.validate();
-    
-    if (status == X_OKAY)
-    {
-        return cd;
-    }
     else
     {
-        exceptionCode = parser.getError();
-        errorMessage = parser.getErrorMessage();
-        return NULL;
+        return cd;
     }
 }
 

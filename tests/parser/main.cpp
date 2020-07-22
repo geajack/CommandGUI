@@ -4,12 +4,12 @@
 #include "CommandTemplateParser.h"
 #include "Exceptions.h"
 
-int main()
+int main(int argc, const char** argv)
 {
     ExceptionCode statusCode;
     std::string errorMessage;
 
-    std::string *filePath = new std::string("/home/jack/Code/CommandGUI/Codebase/tests/parser/cases/invalid.json");
+    std::string *filePath = new std::string(argv[1]);
 
     CommandDescriptor::FromJSON(
         filePath,
