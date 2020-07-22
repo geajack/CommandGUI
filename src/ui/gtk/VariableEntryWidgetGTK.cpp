@@ -5,6 +5,12 @@ void VariableEntryWidgetGTK::onInternalDataChange()
     onChangeSignal.emit();
 }
 
+/**************************************************************
+ *
+ * StringVariableEntryWidgetGTK
+ *
+ * ************************************************************/
+
 StringVariableEntryWidgetGTK::StringVariableEntryWidgetGTK(std::string initialValue)
 {
     widget.set_text(initialValue);
@@ -18,19 +24,46 @@ std::string StringVariableEntryWidgetGTK::getStringValue()
     return widget.get_text();
 }
 
-Gtk::Entry *StringVariableEntryWidgetGTK::getWidget()
+Gtk::Widget *StringVariableEntryWidgetGTK::getWidget()
 {
     return &widget;
 }
 
-BooleanVariableEntryWidgetGTK::BooleanVariableEntryWidgetGTK(bool initialValue) : StringVariableEntryWidgetGTK("")
+/**************************************************************
+ *
+ * BooleanVariableEntryWidgetGTK
+ *
+ * ************************************************************/
+
+BooleanVariableEntryWidgetGTK::BooleanVariableEntryWidgetGTK(bool initialValue)
 {
     if (initialValue)
     {
-        getWidget()->set_text("true");
+        checkbox.set_active(true);
     }
     else
     {
-        getWidget()->set_text("false");
+        checkbox.set_active(false);
     }
+
+    checkbox.signal_toggled().connect(
+        sigc::mem_fun(*this, &VariableEntryWidgetGTK::onInternalDataChange)
+    );
+}
+
+std::string BooleanVariableEntryWidgetGTK::getStringValue()
+{
+    if (checkbox.get_active())
+    {
+        return "true";
+    }
+    else
+    {
+        return "false";
+    }
+}
+
+Gtk::Widget *BooleanVariableEntryWidgetGTK::getWidget()
+{
+    return &checkbox;
 }

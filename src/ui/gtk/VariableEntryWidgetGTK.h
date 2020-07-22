@@ -16,13 +16,16 @@ class StringVariableEntryWidgetGTK : public VariableEntryWidgetGTK
     public:
         StringVariableEntryWidgetGTK(std::string initialValue);
         std::string getStringValue();
-        Gtk::Entry* getWidget();
+        Gtk::Widget* getWidget();
 };
 
-class BooleanVariableEntryWidgetGTK : public StringVariableEntryWidgetGTK
+class BooleanVariableEntryWidgetGTK : public VariableEntryWidgetGTK
 {
+        Gtk::CheckButton checkbox;
     public:
         BooleanVariableEntryWidgetGTK(bool initialValue);
+        std::string getStringValue();
+        Gtk::Widget* getWidget();
 };
 
 typedef StringVariableEntryWidgetGTK MultipleChoiceVariableEntryWidgetGTK;
