@@ -79,7 +79,7 @@ void CommandPage::reset()
 {
     for (auto child : contentArea.get_children())
     {
-        delete child;
+        contentArea.remove(*child);
     }
 
     textEntries.clear();
