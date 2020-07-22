@@ -1,0 +1,27 @@
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+
+export url=https://example.com/
+export user=jack
+export password=silverfish
+export recursive=true
+export noparent=true
+export norobots=false
+export outdir=/home/jack/Documents
+export cut=5
+
+output=$(bin/tests/parser/test parse examples/wget.json)
+expected="wget -r -np --user=jack --password=silverfish -P \"/home/jack/Documents\" -nH --cut-dirs=5 https://example.com/"
+
+echo "Got:      $output"
+echo "Expected: $expected"
+
+cmp -s <(echo "$output") <(echo "$expected")
+are_different=$?
+
+if [[ $are_different == 1 ]]
+then
+    echo -e "${RED}failed!"
+else
+    echo -e "${GREEN}passed!"
+fi
