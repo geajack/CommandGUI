@@ -93,3 +93,29 @@ Gtk::Widget *FolderVariableEntryWidgetGTK::getWidget()
 {
     return &button;
 }
+
+/**************************************************************
+ *
+ * FileVariableEntryWidgetGTK
+ *
+ * ************************************************************/
+
+FileVariableEntryWidgetGTK::FileVariableEntryWidgetGTK(std::string initialValue)
+{
+    button.set_filename(initialValue);
+    button.set_action(Gtk::FILE_CHOOSER_ACTION_OPEN);
+
+    button.signal_file_set().connect(
+        sigc::mem_fun(*this, &VariableEntryWidgetGTK::onInternalDataChange)
+    );
+}
+
+std::string FileVariableEntryWidgetGTK::getStringValue()
+{
+    return button.get_filename();
+}
+
+Gtk::Widget *FileVariableEntryWidgetGTK::getWidget()
+{
+    return &button;
+}
