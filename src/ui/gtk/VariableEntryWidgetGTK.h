@@ -5,6 +5,7 @@ class VariableEntryWidgetGTK
 {
     public:
         sigc::signal<void> onChangeSignal;
+        void onInternalDataChange();
         virtual Gtk::Widget* getWidget() = 0;
         virtual std::string getStringValue() = 0;
 };

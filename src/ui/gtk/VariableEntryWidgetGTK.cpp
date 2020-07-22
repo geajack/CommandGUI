@@ -1,8 +1,16 @@
 #include "VariableEntryWidgetGTK.h"
 
+void VariableEntryWidgetGTK::onInternalDataChange()
+{
+    onChangeSignal.emit();
+}
+
 StringVariableEntryWidgetGTK::StringVariableEntryWidgetGTK(std::string initialValue)
 {
     widget.set_text(initialValue);
+    widget.signal_changed().connect(
+        sigc::mem_fun(*this, &VariableEntryWidgetGTK::onInternalDataChange)
+    );
 }
 
 std::string StringVariableEntryWidgetGTK::getStringValue()
