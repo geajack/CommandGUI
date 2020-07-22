@@ -1,4 +1,5 @@
 #include <string>
+#include <cstdlib>
 #include <iostream>
 #include "CommandDescriptor.h"
 #include "CommandTemplateParser.h"
@@ -6,21 +7,62 @@
 
 int main(int argc, const char** argv)
 {
+    std::string command = argv[1];
+    std::string filePath = argv[2];
+
     ExceptionCode statusCode;
     std::string errorMessage;
 
-    std::string *filePath = new std::string(argv[1]);
-
-    CommandDescriptor::FromJSON(
-        filePath,
+    CommandDescriptor *descriptor = CommandDescriptor::FromJSON(
+        &filePath,
         &statusCode,
         &errorMessage
     );
 
-    std::cout << statusCode << "\n";
-    std::cout << errorMessage << "\n";
+    if (statusCode == X_OKAY)
+    {
+        if (command == "validate")
+        {
+            return 0;
+        }
+        else if (command == "parse")
+        {
+            CommandTemplateParser parser(descriptor);
 
-    delete filePath;
+            for (VariableDescriptor *variable : *descriptor->getVariableList())
+            {
+                auto name = variable->name;
+                const char *result = std::getenv(name->c_str());
 
-    return 0;
+                std::string value;
+                if (result == NULL)
+                {
+                    value = variable->defaultValue;
+                }
+                else
+                {
+                    value = std::string(result);
+                }
+
+                parser.addVariable(name, &value);
+            }
+
+            parser.parse();
+            if (parser.getError() != X_OKAY)
+            {
+                std::cout << parser.getErrorMessage() << "\n";
+                return 1;
+            }
+            else
+            {
+                std::cout << parser.getResult() << "\n";
+                return 0;
+            }
+        }
+    }
+    else
+    {
+        std::cout << errorMessage << "\n";
+        return 1;
+    }
 }
