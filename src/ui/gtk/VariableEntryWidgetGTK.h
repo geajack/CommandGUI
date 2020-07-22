@@ -1,6 +1,8 @@
+#pragma once
+
 #include <string>
 #include <gtkmm.h>
-
+#include "../../core/MultipleChoiceItem.h"
 class VariableEntryWidgetGTK
 {
     public:
@@ -46,4 +48,11 @@ class FileVariableEntryWidgetGTK : public VariableEntryWidgetGTK
         Gtk::Widget* getWidget();
 };
 
-typedef StringVariableEntryWidgetGTK MultipleChoiceVariableEntryWidgetGTK;
+class MultipleChoiceVariableEntryWidgetGTK : public VariableEntryWidgetGTK
+{
+        Gtk::ComboBoxText comboBox;
+    public:
+        MultipleChoiceVariableEntryWidgetGTK(std::vector<MultipleChoiceItem> *options, std::string initialValue);
+        std::string getStringValue();
+        Gtk::Widget* getWidget();
+};

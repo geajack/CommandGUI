@@ -149,7 +149,7 @@ VariableEntryWidget* VariableDescriptor::buildEntryWidget()
         break;
 
         case TYPE_MULTIPLE_CHOICE:
-            return new MultipleChoiceVariableEntryWidget(defaultValue);
+            return new MultipleChoiceVariableEntryWidget(choices, defaultValue);
         break;
 
         case TYPE_FILE:
@@ -254,10 +254,10 @@ VariableDescriptor* VariableDescriptor::FromJSON(cJSON *json, std::string *error
 
         vd -> type = VariableDescriptor::TYPE_MULTIPLE_CHOICE;
         vd -> defaultValue = "";
-        vd -> choices = new std::vector<VariableDescriptor::MultipleChoiceItem>;
+        vd -> choices = new std::vector<MultipleChoiceItem>;
         cJSON *choiceJSON;
         int nChoices = cJSON_GetArraySize(choicesJSON);
-        VariableDescriptor::MultipleChoiceItem item;
+        MultipleChoiceItem item;
         for (int i = 0; i < nChoices; i++)
         {
             choiceJSON = cJSON_GetArrayItem(choicesJSON, i);

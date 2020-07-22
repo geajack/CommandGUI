@@ -5,22 +5,17 @@
 #include <map>
 #include "cJSON.h"
 #include "Exceptions.h"
+#include "MultipleChoiceItem.h"
 #include "../ui/VariableEntryWidget.h"
 
 class VariableDescriptor
 {
-    public:
-        struct MultipleChoiceItem
-        {
-            std::string label;
-            std::string value;
-        };
-        
+    public:      
         std::string* name;
         std::string* label;
         std::string defaultValue;
         int type;
-        std::vector<VariableDescriptor::MultipleChoiceItem>* choices;
+        std::vector<MultipleChoiceItem>* choices;
         
         static const int TYPE_STRING = 0;
         static const int TYPE_BOOLEAN = 1;

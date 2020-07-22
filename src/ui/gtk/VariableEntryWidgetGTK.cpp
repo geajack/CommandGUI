@@ -119,3 +119,24 @@ Gtk::Widget *FileVariableEntryWidgetGTK::getWidget()
 {
     return &button;
 }
+
+/**************************************************************
+ *
+ * MultipleChoiceVariableEntryWidgetGTK
+ *
+ * ************************************************************/
+
+MultipleChoiceVariableEntryWidgetGTK::MultipleChoiceVariableEntryWidgetGTK(std::vector<MultipleChoiceItem> *options, std::string initialValue)
+{
+    
+}
+
+std::string MultipleChoiceVariableEntryWidgetGTK::getStringValue()
+{
+    return "";
+}
+
+Gtk::Widget *MultipleChoiceVariableEntryWidgetGTK::getWidget()
+{
+    return &comboBox;
+}
