@@ -1,5 +1,4 @@
 #include <string.h>
-#include <fstream>
 #include "CommandTemplateParser.h"
 #include "CommandDescriptor.h"
 #include "CommandManager.h"
@@ -53,55 +52,11 @@ CommandDescriptor* CommandManager::getCommandDescriptor(int id)
 {
     exceptionCode = X_OKAY;
     
-    CommandDescriptor* cd = 0;
-    std::ifstream in;
-    
-    try
+    std::string filePath = fileInfoList->at(id).string();
+    CommandDescriptor* cd = CommandDescriptor::FromJSON(&filePath, &exceptionCode, &errorMessage);
+    if (cd == 0)
     {
-        cJSON *json = NULL;
-        in = std::ifstream(fileInfoList->at(id).string(), std::ios::in | std::ios::binary);
-        if (in)
-        {
-            std::string contents;
-            in.seekg(0, std::ios::end);
-            contents.resize(in.tellg());
-            in.seekg(0, std::ios::beg);
-            in.read(&contents[0], contents.size());
-            in.close();
-            json = cJSON_Parse(contents.c_str());
-            in.close();
-        }
-        else
-        {
-            exceptionCode = X_FILE_UNREADABLE;
-            errorMessage  = "There was a problem with the file " + (fileInfoList -> at(id).string()) + ". ";
-            errorMessage  += "Is it corrupted or missing?";
-            throw 0;
-        }
-        
-        if (json == NULL)
-        {
-            exceptionCode = X_BAD_JSON_SYNTAX;
-            errorMessage = "The given file contains invalid JSON. " + std::string(cJSON_GetErrorPtr());
-            throw 0;
-        }
-        
-        cd = CommandDescriptor::FromJSON(json, &errorMessage);
-        
-        if (cd == 0)
-        {
-            exceptionCode = X_BAD_JSON_SEMANTICS;
-            errorMessage = "There was a problem with the file " + (fileInfoList -> at(id).string()) + ".\n\n" + errorMessage;
-            throw 0;
-        }
-    }
-    catch (int e)
-    {
-        if (in.is_open())
-        {
-            in.close();
-        }
-        
+        errorMessage = "There was a problem with the file " + (fileInfoList -> at(id).string()) + ".\n\n" + errorMessage;
         return 0;
     }
 

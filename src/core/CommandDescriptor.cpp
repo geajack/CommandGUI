@@ -1,52 +1,80 @@
+#include <fstream>
 #include "CommandDescriptor.h"
-#include "Exceptions.h"
 
-CommandDescriptor* CommandDescriptor::FromJSON(cJSON *json, std::string* errorString)
+CommandDescriptor* CommandDescriptor::FromJSON(std::string *filePath, ExceptionCode *exceptionCode, std::string *errorMessage)
 {
     CommandDescriptor* cd = new CommandDescriptor();
 
+    cJSON *json = NULL;
+    std::ifstream in = std::ifstream(*filePath, std::ios::in | std::ios::binary);
+    if (in)
+    {
+        std::string contents;
+        in.seekg(0, std::ios::end);
+        contents.resize(in.tellg());
+        in.seekg(0, std::ios::beg);
+        in.read(&contents[0], contents.size());
+        in.close();
+        json = cJSON_Parse(contents.c_str());
+        in.close();
+    }
+    else
+    {
+        *exceptionCode = X_FILE_UNREADABLE;
+        *errorMessage  = "There was a problem with the file " + *filePath + ". ";
+        *errorMessage  += "Is it corrupted or missing?";
+        return 0;
+    }
+    
+    if (json == NULL)
+    {
+        *exceptionCode = X_BAD_JSON_SYNTAX;
+        *errorMessage = "The given file contains invalid JSON. " + std::string(cJSON_GetErrorPtr());
+        return 0;
+    }
+
     if (json->type != cJSON_Object)
     {
-        *errorString = "The root entity of the file was not a JSON object.";
+        *errorMessage = "The root entity of the file was not a JSON object.";
         return 0;
     }
 
     if (!cJSON_HasObjectItem(json, "name"))
     {
-        *errorString = "There was no name.";
+        *errorMessage = "There was no name.";
         return 0;
     }
 
     cJSON *nameJSON = cJSON_GetObjectItem(json, "name");
     if (!cJSON_IsString(nameJSON))
     {
-        *errorString = "The name value was not a string.";
+        *errorMessage = "The name value was not a string.";
         return 0;
     }
 
     if (!cJSON_HasObjectItem(json, "templateString"))
     {
-        *errorString = "There was no template string.";
+        *errorMessage = "There was no template string.";
         return 0;
     }
 
     cJSON *templateStringJSON = cJSON_GetObjectItem(json, "templateString");
     if (!cJSON_IsString(templateStringJSON))
     {
-        *errorString = "The template string value was not a string.";
+        *errorMessage = "The template string value was not a string.";
         return 0;
     }
 
     if (!cJSON_HasObjectItem(json, "variables"))
     {
-        *errorString = "The variables array was not present.";
+        *errorMessage = "The variables array was not present.";
         return 0;
     }
 
     cJSON *variablesJSON = cJSON_GetObjectItem(json, "variables");
     if (!cJSON_IsArray(variablesJSON))
     {
-        *errorString = "The 'variables' key does not contain an array.";
+        *errorMessage = "The 'variables' key does not contain an array.";
         return 0;
     }
 
@@ -65,8 +93,8 @@ CommandDescriptor* CommandDescriptor::FromJSON(cJSON *json, std::string* errorSt
 
         if (vd == 0)
         {
-            *errorString = "There was a problem parsing variable number " + std::to_string(i + 1) + " of your variable list. ";
-            *errorString += variableErrorString;
+            *errorMessage = "There was a problem parsing variable number " + std::to_string(i + 1) + " of your variable list. ";
+            *errorMessage += variableErrorString;
             return 0;
         }
 

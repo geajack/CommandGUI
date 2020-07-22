@@ -4,6 +4,7 @@
 #include <vector>
 #include <map>
 #include "cJSON.h"
+#include "Exceptions.h"
 
 class VariableDescriptor
 {
@@ -39,7 +40,7 @@ class CommandDescriptor
         std::vector<VariableDescriptor*>* getVariableList();
         VariableDescriptor* getVariable(std::string name);
         
-        static CommandDescriptor* FromJSON(cJSON *json, std::string* errorMessage);
+        static CommandDescriptor* FromJSON(std::string *filePath, ExceptionCode *exceptionCode, std::string *errorMessage);
     private:
         std::map<std::string, VariableDescriptor*>* variableMap;
 };
