@@ -63,6 +63,8 @@ void CommandPage::loadCommandDescriptor(CommandDescriptor *descriptor)
         contentArea.attach(*label, 0, i, 1, 1);
         contentArea.attach(*inputField, 1, i, 1, 1);
 
+        inputField->get_buffer()->set_text(variable->defaultValue);
+
         inputField->signal_changed().connect(
             sigc::mem_fun(*this, &CommandPage::onChangeValue)
         );
