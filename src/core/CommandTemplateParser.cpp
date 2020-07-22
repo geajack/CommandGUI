@@ -6,7 +6,7 @@
 CommandTemplateParser::CommandTemplateParser(CommandDescriptor *commandDescriptor)
 {
     this -> commandDescriptor = commandDescriptor;
-    this -> variableMap = new std::map<std::string, std::string>;
+    this -> variableMap = new std::map<std::string, std::string>();
     this -> input = (commandDescriptor -> templateString);
 }
 
@@ -117,14 +117,24 @@ inline void CommandTemplateParser::textStep(char qc)
     {
         if (printVariable)
         {
-            if (commandDescriptor -> getVariable(variableName) -> type == VariableDescriptor::TYPE_BOOLEAN)
+            if (variableMap->count(variableName) == 1)
             {
-                exceptionCode = X_BAD_TEMPLATE;
-                errorMessage = "The template string references a variable called \"" + variableName + "\" which isn't in the variables list.";
+                if (commandDescriptor -> getVariable(variableName) -> type == VariableDescriptor::TYPE_BOOLEAN)
+                {
+                    exceptionCode = X_BAD_TEMPLATE;
+                    errorMessage = "Boolean variables are only for use as conditionals and can't be printed directly. This template string attempts to print the boolean variable \"" + variableName + "\".";
+                    return;
+                }
+                else
+                {
+                    print(variableMap -> at(variableName));
+                }
             }
             else
             {
-                print(variableMap -> at(variableName));
+                exceptionCode = X_BAD_TEMPLATE;
+                errorMessage = "This template references the variable \"" + variableName + "\" which is not defined in the variable list.";
+                return;
             }
         }
         variableName = "";
@@ -184,14 +194,22 @@ void CommandTemplateParser::lastStep()
         case TEXT:
             if (! variableName.empty())
             {
-                if (commandDescriptor -> getVariable(variableName) -> type == VariableDescriptor::TYPE_BOOLEAN)
+                if (variableMap->count(variableName) == 1)
                 {
-                    exceptionCode = X_BAD_TEMPLATE;
-                    errorMessage = "Boolean variables are only for use as conditionals and can't be printed directly. This template string attempts to print the boolean variable \"" + variableName + "\".";
+                    if (commandDescriptor -> getVariable(variableName) -> type == VariableDescriptor::TYPE_BOOLEAN)
+                    {
+                        exceptionCode = X_BAD_TEMPLATE;
+                        errorMessage = "Boolean variables are only for use as conditionals and can't be printed directly. This template string attempts to print the boolean variable \"" + variableName + "\".";
+                    }
+                    else
+                    {
+                        print(variableMap -> at(variableName));
+                    }
                 }
                 else
                 {
-                    print(variableMap -> at(variableName));
+                    exceptionCode = X_BAD_TEMPLATE;
+                    errorMessage = "This template references the variable \"" + variableName + "\" which is not defined in the variable list.";
                 }
                 variableName = "";
             }

@@ -1,0 +1,3 @@
+source ./tests/parser/test
+
+test_validity "tests/parser/cases/bad-variable.json"

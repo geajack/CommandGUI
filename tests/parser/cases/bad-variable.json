@@ -1,0 +1,6 @@
+{
+    "name": "bad-variable",
+    "templateString": "%my_variable% hello",
+    "variables": [
+    ]
+}
