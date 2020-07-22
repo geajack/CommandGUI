@@ -20,6 +20,7 @@ class CommandTemplateParser
         int mode;
         int depth;
         int depthSinceHidden;
+        bool justPrintedWhitespace;
         std::string variableName;
         
         void step(char qc);

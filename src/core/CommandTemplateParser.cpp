@@ -107,8 +107,11 @@ inline void CommandTemplateParser::textStep(char qc)
         break;
 
         default:
-            printCharacter = true;
-            printVariable = true;
+            if (depthSinceHidden == 0)
+            {
+                printCharacter = true;
+                printVariable = true;
+            }
         break;
     }
 
@@ -127,7 +130,13 @@ inline void CommandTemplateParser::textStep(char qc)
                 }
                 else
                 {
-                    print(variableMap -> at(variableName));
+                    std::string value = variableMap -> at(variableName);
+                    print(value);
+
+                    if (value.size() > 0)
+                    {
+                        justPrintedWhitespace = false;
+                    }
                 }
             }
             else
@@ -143,7 +152,12 @@ inline void CommandTemplateParser::textStep(char qc)
 
     if (printCharacter)
     {
-        print({c});
+        if (c != ' ' || !justPrintedWhitespace)
+        {
+            print({c});
+
+            justPrintedWhitespace = (c == ' ');
+        }
     }
 }
 
@@ -229,10 +243,7 @@ void CommandTemplateParser::lastStep()
 
 void CommandTemplateParser::print(std::string s)
 {
-    if (depthSinceHidden == 0)
-    {
-        output += s;
-    }
+    output += s;
 }
 
 void CommandTemplateParser::parse()
@@ -242,6 +253,7 @@ void CommandTemplateParser::parse()
     mode = TEXT;
     depth = 0;
     depthSinceHidden = 0;
+    justPrintedWhitespace = false;
     output = "";
     variableName = "";
 
