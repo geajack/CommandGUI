@@ -73,7 +73,7 @@ void CommandPage::loadCommandDescriptor(CommandDescriptor *descriptor)
         textEntries[variable->name] = inputField;
     }
 
-    onChangeValue();
+    //onChangeValue();
 
     contentArea.show_all_children();
 
@@ -113,6 +113,11 @@ void CommandPage::onChangeValue()
     terminal.get_buffer()->set_text(shellCommand);
 }
 
+void CommandPage::renderOutput(std::string output)
+{
+    terminal.get_buffer()->set_text(output);
+}
+
 void CommandPage::runCommand()
 {
     gdk_threads_add_idle(updateUI, this);
@@ -122,6 +127,6 @@ gboolean updateUI(gpointer data)
 {
     CommandPage *commandPage = (CommandPage*) data;
 
-    std::cout << "Hello, world!" << "\n";
+    commandPage->renderOutput("Hello, world!");
     return 0;
 }

@@ -10,6 +10,7 @@ class CommandPage : public Gtk::Box
         void onClickBack();
         void onChangeValue();
         void runCommand();
+        void renderOutput(std::string output);
         sigc::signal<void> signal_clicked_back;
     private:
         Gtk::Window *parent;
