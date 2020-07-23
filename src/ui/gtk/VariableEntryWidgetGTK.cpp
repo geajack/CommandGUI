@@ -128,12 +128,21 @@ Gtk::Widget *FileVariableEntryWidgetGTK::getWidget()
 
 MultipleChoiceVariableEntryWidgetGTK::MultipleChoiceVariableEntryWidgetGTK(std::vector<MultipleChoiceItem> *options, std::string initialValue)
 {
-    
+    comboBox.append("", "--");
+    for (MultipleChoiceItem option : *options)
+    {
+        comboBox.append(option.value, option.label);
+    }
+    comboBox.set_active(0);
+
+    comboBox.signal_changed().connect(
+        sigc::mem_fun(*this, &VariableEntryWidgetGTK::onInternalDataChange)
+    );
 }
 
 std::string MultipleChoiceVariableEntryWidgetGTK::getStringValue()
 {
-    return "";
+    return comboBox.get_active_id();
 }
 
 Gtk::Widget *MultipleChoiceVariableEntryWidgetGTK::getWidget()
