@@ -1,7 +1,15 @@
 #include "Process.h"
 #include <ctime>
 #include <unistd.h>
+#include <signal.h>
 #include <string.h>
+
+typedef struct Pipe
+{
+    int readEndpoint;
+    int writeEndpoint;
+} Pipe;
+
 
 Process::Process(std::string command)
 {
@@ -15,8 +23,8 @@ ProcessRunResult Process::run()
     running = true;
     output = "";
 
-    int pipeEndpoints[2];
-    pipe(pipeEndpoints);
+    Pipe outputPipe;
+    pipe((int*) &outputPipe);
 
     unsigned int forkResult = fork();
 
@@ -29,15 +37,15 @@ ProcessRunResult Process::run()
         if (forkResult > 0)
         {
             childPID = forkResult;
-            outputStream = pipeEndpoints[0];
-            close(pipeEndpoints[1]);
+            outputStream = outputPipe.readEndpoint;
+            close(outputPipe.writeEndpoint);
             return OKAY;
         }
         else
         {
-            close(pipeEndpoints[0]);
-            dup2(pipeEndpoints[1], STDOUT_FILENO);
-            dup2(pipeEndpoints[1], STDERR_FILENO);
+            close(outputPipe.readEndpoint);
+            dup2(outputPipe.writeEndpoint, STDOUT_FILENO);
+            dup2(outputPipe.writeEndpoint, STDERR_FILENO);
             execlp("sh", "sh", "-c", command.c_str(), NULL);
 
             exit(1);
@@ -48,6 +56,7 @@ ProcessRunResult Process::run()
 
 void Process::stop()
 {
+    kill(childPID, SIGINT);
     running = false;
 }
 
