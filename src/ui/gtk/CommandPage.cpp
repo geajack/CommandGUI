@@ -151,7 +151,37 @@ void CommandPage::onClickExecute()
 
 void CommandPage::onClickBack()
 {
-    signal_clicked_back.emit();
+    bool reallyGoBack = true;
+    if (commandRunning)
+    {
+        std::string message = "There is a command running! If you exit now, the command will be stopped. Really exit to main menu?";
+        Gtk::MessageDialog *popup = new Gtk::MessageDialog(
+            *parent,
+            message,
+            false,
+            Gtk::MESSAGE_WARNING,
+            Gtk::BUTTONS_YES_NO,
+            true
+        );
+        int response = popup->run();
+        delete popup;
+
+        if (response == Gtk::RESPONSE_YES)
+        {
+            process->stop();
+            commandRunning = false;
+            stopStartButton.set_label("Execute");
+        }
+        else
+        {
+            reallyGoBack = false;
+        }
+    }
+
+    if (reallyGoBack)
+    {
+        signal_clicked_back.emit();
+    }
 }
 
 void CommandPage::onFormChanged()
