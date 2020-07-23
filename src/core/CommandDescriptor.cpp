@@ -287,7 +287,7 @@ VariableDescriptor* VariableDescriptor::FromJSON(cJSON *json, std::string *error
                 return 0;
             }
 
-            cJSON *labelJSON = cJSON_GetObjectItem(json, "label");
+            cJSON *labelJSON = cJSON_GetObjectItem(choiceJSON, "label");
             if (!cJSON_IsString(labelJSON))
             {
                 *errorString = "A member of the \"choices\" array has a non-string \"label\" attribute.";
