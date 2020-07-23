@@ -9,7 +9,9 @@ CommandPage::CommandPage(Gtk::Window *parent)
 {
     Gtk::ScrolledWindow *scrollingArea = new Gtk::ScrolledWindow;
     Gtk::Paned *panedView = new Gtk::Paned;
-    Gtk::Button *button = new Gtk::Button;
+    Gtk::ButtonBox *buttonBox = new Gtk::ButtonBox;
+    Gtk::Button *executeButton = new Gtk::Button("Execute");
+    Gtk::Button *backButton = new Gtk::Button("Back");
 
     this->parent = parent;
 
@@ -20,12 +22,7 @@ CommandPage::CommandPage(Gtk::Window *parent)
     contentArea.set_orientation(Gtk::ORIENTATION_VERTICAL);
     contentArea.set_row_spacing(5);
     contentArea.set_column_spacing(15);
-    contentArea.set_margin_bottom(10);
-
-    button->set_label("Back");
-    button->signal_clicked().connect(
-        sigc::mem_fun(*this, &CommandPage::onClickBack)
-    );
+    contentArea.set_margin_bottom(10);    
 
     terminal.set_size_request(-1, 80);
     terminal.set_margin_bottom(10);
@@ -39,13 +36,28 @@ CommandPage::CommandPage(Gtk::Window *parent)
     styleProvider->load_from_file(cssFile);
     terminal.get_style_context()->add_provider(styleProvider, GTK_STYLE_PROVIDER_PRIORITY_USER);
 
+    buttonBox->set_orientation(Gtk::ORIENTATION_HORIZONTAL);
+    buttonBox->set_layout(Gtk::BUTTONBOX_EXPAND);
+    buttonBox->add(*executeButton);
+    buttonBox->add(*backButton);
+
+    backButton->signal_clicked().connect(
+        sigc::mem_fun(*this, &CommandPage::onClickBack)
+    );
+    backButton->set_hexpand(true);
+    
+    executeButton->signal_clicked().connect(
+        sigc::mem_fun(*this, &CommandPage::runCommand)
+    );
+    executeButton->set_hexpand(true);
+
     set_orientation(Gtk::ORIENTATION_VERTICAL);
 
     scrollingArea->add(contentArea);
     panedView->pack1(*scrollingArea, true, false);
     panedView->pack2(terminal, false, false);
     add(*panedView);
-    add(*button);
+    add(*buttonBox);
 }
 
 void CommandPage::loadCommandDescriptor(CommandDescriptor *descriptor)
@@ -76,8 +88,6 @@ void CommandPage::loadCommandDescriptor(CommandDescriptor *descriptor)
     onChangeValue();
 
     contentArea.show_all_children();
-
-    std::thread *thread = new std::thread(&CommandPage::runCommand, this);
 }
 
 void CommandPage::reset()
@@ -120,7 +130,16 @@ void CommandPage::renderOutput(std::string output)
 
 void CommandPage::runCommand()
 {
-    while (true)
+    std::string command = terminal.get_buffer()->get_text();
+    process = new Process(command);
+    process->run();
+
+    std::thread *thread = new std::thread(&CommandPage::monitorChildProcess, this);
+}
+
+void CommandPage::monitorChildProcess()
+{
+    while (process->isRunning())
     {
         gdk_threads_add_idle(updateUI, this);
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
@@ -131,6 +150,6 @@ gboolean updateUI(gpointer data)
 {
     CommandPage *commandPage = (CommandPage*) data;
 
-    commandPage->renderOutput("Hello, world!");
+    commandPage->renderOutput(commandPage->process->getOutput());
     return 0;
 }
