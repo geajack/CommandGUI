@@ -104,6 +104,8 @@ void CommandPage::reset()
     }
 
     textEntries.clear();
+
+    output = "";
 }
 
 void CommandPage::generateCommand()
