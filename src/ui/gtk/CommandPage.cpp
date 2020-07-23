@@ -1,6 +1,9 @@
 #include "CommandPage.h"
 #include "../../core/CommandTemplateParser.h"
 #include <iostream>
+#include <thread>
+
+void runCommand();
 
 CommandPage::CommandPage(Gtk::Window *parent)
 {
@@ -73,6 +76,8 @@ void CommandPage::loadCommandDescriptor(CommandDescriptor *descriptor)
     onChangeValue();
 
     contentArea.show_all_children();
+
+    std::thread *thread = new std::thread(runCommand);
 }
 
 void CommandPage::reset()
@@ -106,4 +111,15 @@ void CommandPage::onChangeValue()
 
     std::string shellCommand = parser.getResult();
     terminal.get_buffer()->set_text(shellCommand);
+}
+
+gboolean updateUI(gpointer data)
+{
+    std::cout << "Hello, world!" << "\n";
+    return 0;
+}
+
+void runCommand()
+{
+    gdk_threads_add_idle(updateUI, NULL);
 }
