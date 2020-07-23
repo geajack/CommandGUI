@@ -2,7 +2,7 @@
 
 MainWindow::MainWindow(): commandPage(this)
 {
-    set_default_size(350, 350);
+    set_default_size(450, 500);
     set_title("Command GUI");
 
     set_border_width(10);
