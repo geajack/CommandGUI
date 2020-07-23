@@ -9,12 +9,12 @@ CommandPage::CommandPage(Gtk::Window *parent)
 {
     command = "";
     output = "";
+    commandRunning = false;
 
     Gtk::ScrolledWindow *scrollingArea = new Gtk::ScrolledWindow;
     Gtk::Paned *panedView = new Gtk::Paned;
     Gtk::ButtonBox *buttonBox = new Gtk::ButtonBox;
-    Gtk::Button *executeButton = new Gtk::Button("Execute");
-    Gtk::Button *backButton = new Gtk::Button("Back");
+    Gtk::Button *backButton = new Gtk::Button;
 
     this->parent = parent;
 
@@ -41,18 +41,20 @@ CommandPage::CommandPage(Gtk::Window *parent)
 
     buttonBox->set_orientation(Gtk::ORIENTATION_HORIZONTAL);
     buttonBox->set_layout(Gtk::BUTTONBOX_EXPAND);
-    buttonBox->add(*executeButton);
+    buttonBox->add(stopStartButton);
     buttonBox->add(*backButton);
 
     backButton->signal_clicked().connect(
         sigc::mem_fun(*this, &CommandPage::onClickBack)
     );
     backButton->set_hexpand(true);
+    backButton->set_label("Back");
     
-    executeButton->signal_clicked().connect(
+    stopStartButton.signal_clicked().connect(
         sigc::mem_fun(*this, &CommandPage::onClickExecute)
     );
-    executeButton->set_hexpand(true);
+    stopStartButton.set_hexpand(true);
+    stopStartButton.set_label("Execute");
 
     set_orientation(Gtk::ORIENTATION_VERTICAL);
 
@@ -130,11 +132,21 @@ void CommandPage::render()
 
 void CommandPage::onClickExecute()
 {
-    std::string command = terminal.get_buffer()->get_text();
-    process = new Process(command);
-    process->run();
-
-    std::thread *thread = new std::thread(&CommandPage::monitorChildProcess, this);
+    if (!commandRunning)
+    {
+        std::string command = terminal.get_buffer()->get_text();
+        stopStartButton.set_label("Stop");
+        commandRunning = true;
+        process = new Process(command);
+        process->run();
+        std::thread *thread = new std::thread(&CommandPage::monitorChildProcess, this);
+    }
+    else
+    {
+        process->stop();
+        commandRunning = false;
+        stopStartButton.set_label("Execute");
+    }
 }
 
 void CommandPage::onClickBack()
@@ -144,8 +156,11 @@ void CommandPage::onClickBack()
 
 void CommandPage::onFormChanged()
 {
-    generateCommand();
-    render();
+    if (!commandRunning)
+    {
+        generateCommand();
+        render();
+    }
 }
 
 void CommandPage::monitorChildProcess()

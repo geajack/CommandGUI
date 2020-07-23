@@ -20,11 +20,13 @@ class CommandPage : public Gtk::Box
         Gtk::Window *parent;
         Gtk::Grid contentArea;
         Gtk::TextView terminal;
+        Gtk::Button stopStartButton;
         std::map<std::string*, VariableEntryWidgetGTK*> textEntries;
         CommandDescriptor commandDescriptor;
 
         std::string command;
         std::string output;
+        bool commandRunning;
         Process *process;
 
         void generateCommand();

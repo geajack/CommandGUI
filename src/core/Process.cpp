@@ -3,17 +3,23 @@
 
 Process::Process(std::string command)
 {
-    
+    running = false;
 }
 
 void Process::run()
 {
     startTime = std::time(NULL);
+    running = true;
+}
+
+void Process::stop()
+{
+    running = false;
 }
 
 bool Process::isRunning()
 {
-    return true;
+    return running;
 }
 
 std::string Process::getOutput()
