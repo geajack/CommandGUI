@@ -9,6 +9,7 @@ class CommandPage : public Gtk::Box
         void loadCommandDescriptor(CommandDescriptor *descriptor);
         void onClickBack();
         void onChangeValue();
+        void runCommand();
         sigc::signal<void> signal_clicked_back;
     private:
         Gtk::Window *parent;

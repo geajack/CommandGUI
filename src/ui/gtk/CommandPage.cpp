@@ -3,7 +3,7 @@
 #include <iostream>
 #include <thread>
 
-void runCommand();
+gboolean updateUI(gpointer data);
 
 CommandPage::CommandPage(Gtk::Window *parent)
 {
@@ -77,7 +77,7 @@ void CommandPage::loadCommandDescriptor(CommandDescriptor *descriptor)
 
     contentArea.show_all_children();
 
-    std::thread *thread = new std::thread(runCommand);
+    std::thread *thread = new std::thread(&CommandPage::runCommand, this);
 }
 
 void CommandPage::reset()
@@ -113,13 +113,15 @@ void CommandPage::onChangeValue()
     terminal.get_buffer()->set_text(shellCommand);
 }
 
-gboolean updateUI(gpointer data)
+void CommandPage::runCommand()
 {
-    std::cout << "Hello, world!" << "\n";
-    return 0;
+    gdk_threads_add_idle(updateUI, this);
 }
 
-void runCommand()
+gboolean updateUI(gpointer data)
 {
-    gdk_threads_add_idle(updateUI, NULL);
+    CommandPage *commandPage = (CommandPage*) data;
+
+    std::cout << "Hello, world!" << "\n";
+    return 0;
 }
