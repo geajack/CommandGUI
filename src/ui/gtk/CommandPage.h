@@ -14,6 +14,7 @@ class CommandPage : public Gtk::Box
         void onClickBack();
         void onFormChanged();
         void onClickExecute();
+        void onProcessCompleted();
 
         sigc::signal<void> signal_clicked_back;
     private:

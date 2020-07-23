@@ -3,7 +3,8 @@
 #include <iostream>
 #include <thread>
 
-gboolean updateUI(gpointer data);
+gboolean onOutputWritten(gpointer data);
+gboolean onFinish(gpointer data);
 
 CommandPage::CommandPage(Gtk::Window *parent)
 {
@@ -146,8 +147,6 @@ void CommandPage::onClickExecute()
     else
     {
         process->stop();
-        commandRunning = false;
-        stopStartButton.set_label("Execute");
     }
 }
 
@@ -195,20 +194,35 @@ void CommandPage::onFormChanged()
     }
 }
 
+void CommandPage::onProcessCompleted()
+{
+    commandRunning = false;
+    stopStartButton.set_label("Execute");
+}
+
 void CommandPage::monitorChildProcess()
 {
     while (process->isRunning())
     {
         output = process->getOutput();
-        gdk_threads_add_idle(updateUI, this);
+        gdk_threads_add_idle(onOutputWritten, this);
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
     delete process;
+
+    gdk_threads_add_idle(onFinish, this);
 }
 
-gboolean updateUI(gpointer data)
+gboolean onOutputWritten(gpointer data)
 {
     CommandPage *commandPage = (CommandPage*) data;
     commandPage->render();
+    return 0;
+}
+
+gboolean onFinish(gpointer data)
+{
+    CommandPage *commandPage = (CommandPage*) data;
+    commandPage->onProcessCompleted();
     return 0;
 }
