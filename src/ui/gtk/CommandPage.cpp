@@ -7,6 +7,9 @@ gboolean updateUI(gpointer data);
 
 CommandPage::CommandPage(Gtk::Window *parent)
 {
+    command = "";
+    output = "";
+
     Gtk::ScrolledWindow *scrollingArea = new Gtk::ScrolledWindow;
     Gtk::Paned *panedView = new Gtk::Paned;
     Gtk::ButtonBox *buttonBox = new Gtk::ButtonBox;
@@ -47,7 +50,7 @@ CommandPage::CommandPage(Gtk::Window *parent)
     backButton->set_hexpand(true);
     
     executeButton->signal_clicked().connect(
-        sigc::mem_fun(*this, &CommandPage::runCommand)
+        sigc::mem_fun(*this, &CommandPage::onClickExecute)
     );
     executeButton->set_hexpand(true);
 
@@ -79,13 +82,14 @@ void CommandPage::loadCommandDescriptor(CommandDescriptor *descriptor)
         contentArea.attach(*inputField->getWidget(), 1, i, 1, 1);
 
         inputField->onChangeSignal.connect(
-            sigc::mem_fun(*this, &CommandPage::onChangeValue)
+            sigc::mem_fun(*this, &CommandPage::onFormChanged)
         );
 
         textEntries[variable->name] = inputField;
     }
 
-    onChangeValue();
+    generateCommand();
+    render();
 
     contentArea.show_all_children();
 }
@@ -100,12 +104,7 @@ void CommandPage::reset()
     textEntries.clear();
 }
 
-void CommandPage::onClickBack()
-{
-    signal_clicked_back.emit();
-}
-
-void CommandPage::onChangeValue()
+void CommandPage::generateCommand()
 {
     CommandTemplateParser parser(&commandDescriptor);
     for (auto pair : textEntries)
@@ -120,15 +119,16 @@ void CommandPage::onChangeValue()
     parser.parse();
 
     std::string shellCommand = parser.getResult();
-    terminal.get_buffer()->set_text(shellCommand);
+    command = shellCommand;
 }
 
-void CommandPage::renderOutput(std::string output)
+void CommandPage::render()
 {
-    terminal.get_buffer()->set_text(output);
+    std::string text = "$ " + command + "\n" + output;
+    terminal.get_buffer()->set_text(text);
 }
 
-void CommandPage::runCommand()
+void CommandPage::onClickExecute()
 {
     std::string command = terminal.get_buffer()->get_text();
     process = new Process(command);
@@ -137,10 +137,22 @@ void CommandPage::runCommand()
     std::thread *thread = new std::thread(&CommandPage::monitorChildProcess, this);
 }
 
+void CommandPage::onClickBack()
+{
+    signal_clicked_back.emit();
+}
+
+void CommandPage::onFormChanged()
+{
+    generateCommand();
+    render();
+}
+
 void CommandPage::monitorChildProcess()
 {
     while (process->isRunning())
     {
+        output = process->getOutput();
         gdk_threads_add_idle(updateUI, this);
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
@@ -149,7 +161,6 @@ void CommandPage::monitorChildProcess()
 gboolean updateUI(gpointer data)
 {
     CommandPage *commandPage = (CommandPage*) data;
-
-    commandPage->renderOutput(commandPage->process->getOutput());
+    commandPage->render();
     return 0;
 }
