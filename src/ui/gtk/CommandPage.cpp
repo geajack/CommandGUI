@@ -171,6 +171,7 @@ void CommandPage::monitorChildProcess()
         gdk_threads_add_idle(updateUI, this);
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
+    delete process;
 }
 
 gboolean updateUI(gpointer data)
