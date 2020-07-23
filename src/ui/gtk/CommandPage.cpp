@@ -137,7 +137,6 @@ void CommandPage::onClickExecute()
 {
     if (!commandRunning)
     {
-        std::string command = terminal.get_buffer()->get_text();
         stopStartButton.set_label("Stop");
         commandRunning = true;
         process = new Process(command);

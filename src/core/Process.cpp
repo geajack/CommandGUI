@@ -1,6 +1,7 @@
 #include "Process.h"
 #include <ctime>
 #include <unistd.h>
+#include <string.h>
 
 Process::Process(std::string command)
 {
@@ -37,7 +38,7 @@ ProcessRunResult Process::run()
             close(pipeEndpoints[0]);
             dup2(pipeEndpoints[1], STDOUT_FILENO);
             dup2(pipeEndpoints[1], STDERR_FILENO);
-            execlp("echo", "echo", "hello", NULL);
+            execlp("sh", "sh", "-c", command.c_str(), NULL);
 
             exit(1);
             return OKAY;
