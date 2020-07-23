@@ -37,9 +37,8 @@ ProcessRunResult Process::run()
             close(pipeEndpoints[0]);
             dup2(pipeEndpoints[1], STDOUT_FILENO);
             dup2(pipeEndpoints[1], STDERR_FILENO);
-            //execlp("echo", "echo", "hello");
-            printf("%s", "hello world\n");
-            
+            execlp("echo", "echo", "hello", NULL);
+
             exit(1);
             return OKAY;
         }
