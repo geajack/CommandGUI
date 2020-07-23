@@ -129,11 +129,18 @@ Gtk::Widget *FileVariableEntryWidgetGTK::getWidget()
 MultipleChoiceVariableEntryWidgetGTK::MultipleChoiceVariableEntryWidgetGTK(std::vector<MultipleChoiceItem> *options, std::string initialValue)
 {
     comboBox.append("", "--");
+    int index = 1;
+    int initialIndex = 0;
     for (MultipleChoiceItem option : *options)
     {
+        if (option.value == initialValue)
+        {
+            initialIndex = index;
+        }
         comboBox.append(option.value, option.label);
+        index++;
     }
-    comboBox.set_active(0);
+    comboBox.set_active(initialIndex);
 
     comboBox.signal_changed().connect(
         sigc::mem_fun(*this, &VariableEntryWidgetGTK::onInternalDataChange)
